@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    .container-user{
+        @apply container px-5 md:px-10 lg:px-10 mx-auto
+    }
+    .animation{
+        @apply hover:transition-all transition-all hover:duration-300 duration-300
+    }
+    .input{
+        @apply w-full border-2 rounded-md p-2
+    }
+    .input-error-message{
+        @apply text-red-500
+    }
+    .input-label{
+        @apply text-lg font-medium
+    }
+    .input-group{
+        @apply flex flex-col gap-1
+    }
+}
+@layer utilities {
+    .scrollable-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .scrollable-container::-webkit-scrollbar-track {
+        background: #f0f0f0;
+        border-radius: 8px;
+    }
+
+    .scrollable-container::-webkit-scrollbar-thumb {
+        background-color: #6366F1;
+        border-radius: 8px;
+        border: 2px solid #f0f0f0;
+    }
+
+    .scrollable-container::-webkit-scrollbar-thumb:hover {
+        background-color: #4F46E5;
+    }
+}
