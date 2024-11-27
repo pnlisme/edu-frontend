@@ -64,7 +64,11 @@ export function useLogin() {
 
         const redirectUrl = localStorage.getItem('redirectAfterLogin') || '/'
         localStorage.removeItem('redirectAfterLogin')
-        router.push(redirectUrl)
+        if (redirectUrl === '/login') {
+          router.push('/')
+        } else {
+          router.push(redirectUrl)
+        }
       }
       // Chuyển hướng đến trang khác (ví dụ: dashboard)
     } catch (error) {

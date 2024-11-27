@@ -3,43 +3,79 @@
 @tailwind utilities;
 
 @layer components {
-
-    .container-user{
-        @apply container px-5 md:px-10 lg:px-10 mx-auto
-    }
-    .animation{
-        @apply hover:transition-all transition-all hover:duration-300 duration-300
-    }
-    .input{
-        @apply w-full border-2 rounded-md p-2
-    }
-    .input-error-message{
-        @apply text-red-500
-    }
-    .input-label{
-        @apply text-lg font-medium
-    }
-    .input-group{
-        @apply flex flex-col gap-1
-    }
+  .container-user {
+    @apply container px-5 md:px-10 lg:px-10 mx-auto;
+  }
+  .animation {
+    @apply hover:transition-all transition-all hover:duration-300 duration-300;
+  }
+  .input {
+    @apply w-full border-2 rounded-md p-2;
+  }
+  .input-error-message {
+    @apply text-red-500;
+  }
+  .input-label {
+    @apply text-lg font-medium;
+  }
+  .input-group {
+    @apply flex flex-col gap-1;
+  }
+  .container-admin {
+    @apply relative flex dark:bg-dark-bg-primary overflow-hidden bg-bg-primary before:absolute before:w-[155px] before:h-full before:bg-gradient-to-l before:from-bg-primary before:to-bg-linear  dark:before:from-dark-bg-primary dark:before:to-dark-bg-linear before:p-3;
+  }
+  .main-admin {
+    @apply rounded-l-[16px]  bg-bg-primary dark:bg-primary-sidebar w-full shadow-main-content z-10;
+  }
 }
 @layer utilities {
-    .scrollable-container::-webkit-scrollbar {
-        width: 8px;
-    }
+  .scrollable-container::-webkit-scrollbar {
+    width: 8px;
+  }
 
-    .scrollable-container::-webkit-scrollbar-track {
-        background: #f0f0f0;
-        border-radius: 8px;
-    }
+  .scrollable-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 8px;
+  }
 
-    .scrollable-container::-webkit-scrollbar-thumb {
-        background-color: #6366F1;
-        border-radius: 8px;
-        border: 2px solid #f0f0f0;
-    }
+  .scrollable-container::-webkit-scrollbar-thumb {
+    background-color: #6366f1;
+    border-radius: 8px;
+    border: 2px solid #f0f0f0;
+  }
 
-    .scrollable-container::-webkit-scrollbar-thumb:hover {
-        background-color: #4F46E5;
-    }
+  .scrollable-container::-webkit-scrollbar-thumb:hover {
+    background-color: #4f46e5;
+  }
+  .input-style {
+    @apply block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus-visible:ring-1 focus:ring-inset  focus-visible:ring-btn-darkmode sm:text-sm sm:leading-6;
+  }
+  .label-input {
+    @apply text-sm font-bold leading-6 text-gray-900 dark:text-white;
+  }
+  .background-table {
+    @apply bg-white dark:bg-dark-sidebar border w-full rounded-[5px] shadow-soft;
+  }
+
+  /* ==== CUSTOMIZE ELEMENT PLUS ==== */
+
+  .tab-items-style {
+    @apply flex font-bold gap-2 items-center dark:text-white;
+  }
+
+  .el-table tr {
+    @apply dark:bg-dark-sidebar dark:text-white text-black;
+  }
+
+  .el-table td {
+    @apply dark:text-white;
+  }
+
+  .el-table .el-table__body tr:hover {
+    @apply dark:bg-btn-darkmode bg-bg-primary;
+  }
+
+  .el-tag {
+    @apply rounded-full;
+  }
 }

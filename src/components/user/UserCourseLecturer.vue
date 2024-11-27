@@ -41,9 +41,9 @@
 </template>
 
 <script setup lang="ts">
-import type { CourseDetailUser } from '@/interfaces/user.interface';
+import type { TCourseDetailUser } from '@/interfaces/user.interface';
 import { StarIcon, UserGroupIcon, ChatBubbleLeftRightIcon, PlayCircleIcon } from '@heroicons/vue/24/outline';
 import { defineProps } from 'vue'
-defineProps<CourseDetailUser>()
+defineProps<TCourseDetailUser>()
 const defaultAvatar = 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
 </script>

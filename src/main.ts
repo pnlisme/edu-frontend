@@ -6,7 +6,7 @@ import router from './router/index'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import '@/assets/index.css'
-
+import '@/assets/css/style.css'
 // video
 import VideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
@@ -16,6 +16,7 @@ import 'vue-loading-overlay/dist/css/index.css'
 // language
 import enHome from './locales/en/home.json'
 import viHome from './locales/vi/home.json'
+
 const i18n = createI18n({
   locale: 'vi', // Ngôn ngữ mặc định
   fallbackLocale: 'en', // Ngôn ngữ dự phòng

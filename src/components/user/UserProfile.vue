@@ -16,24 +16,24 @@
 
                     </el-dropdown-item>
                     <el-dropdown-item divided>
-                        <router-link to="">
+                        <RouterLink to="/mycourses">
                             Khóa học của tôi
-                        </router-link>
+                        </RouterLink>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link to="">
+                        <RouterLink to="/wishlist">
                             Khóa học yêu thích
-                        </router-link>
+                        </RouterLink>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link to="">
+                        <RouterLink to="/history">
                             Lịch sử mua
-                        </router-link>
+                        </RouterLink>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link to="">
+                        <RouterLink to="/myprofile">
                             Cá nhân
-                        </router-link>
+                        </RouterLink>
                     </el-dropdown-item>
                     <el-dropdown-item divided @click="handleLogout">Đăng xuất</el-dropdown-item>
                 </el-dropdown-menu>
@@ -45,8 +45,8 @@
 <script setup lang="ts">
 import type { TUserAuth } from '@/interfaces';
 import { useAuthStore } from '@/store/auth'
-import { onServerPrefetch } from 'vue';
-import { useRouter } from 'vue-router'
+import { onServerPrefetch, ref, watch } from 'vue';
+import { RouterLink, useRouter } from 'vue-router'
 const router = useRouter()
 const props = defineProps<{
     dataUser: TUserAuth | null
@@ -58,5 +58,15 @@ const handleLogout = () => {
 const authStore = useAuthStore()
 const { logout } = authStore
 
-const userAvatar = props.dataUser?.avatar || 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+const userAvatar = ref(
+    authStore.state.user?.avatar || 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+);
+watch(
+    () => authStore.state.user?.avatar,
+    (newAvatar) => {
+        if (newAvatar) {
+            userAvatar.value = newAvatar;
+        }
+    }
+);
 </script>

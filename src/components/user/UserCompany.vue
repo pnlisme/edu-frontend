@@ -16,7 +16,7 @@ import CardService from '../ui/card/CardService.vue';
                     description="Một sự thật đã được chứng minh từ lâu là người đọc sẽ bị mất tập trung." />
                 <CardService
                     image="https://demo.creativeitem.com/academy-laravel/public/assets/page-builder/block-image/p3.png"
-                    heading="Hỗ trợ nhanh chóng và thân thiện"
+                    heading="Hỗ trợ nhanh chóng "
                     description="Một sự thật đã được chứng minh từ lâu là người đọc sẽ bị mất tập trung." />
                 <CardService
                     image="https://demo.creativeitem.com/academy-laravel/public/assets/page-builder/block-image/p4.png"

@@ -59,21 +59,19 @@ const router = useRouter();
 // Redirect to Google sign-in URL
 const loginWithGoogle = async () => {
     const googleUrl = await authStore.getGoogleSignInUrl('student');
-    console.log(googleUrl)
     if (googleUrl) {
         window.location.href = googleUrl; // Redirect to Google
-
     }
 
 };
 
 // Handle Google callback when user is redirected back to your app
-onMounted(async () => {
-    const code = route.query.code;
-    if (code) {
-        // If there is a "code" in the query, this is the Google OAuth2 callback
-        await authStore.handleGoogleCallback(code as string);
-        router.push('/'); // Redirect to home after successful login
-    }
-});
+// onMounted(async () => {
+//     const code = route.query.code;
+//     if (code) {
+//         // If there is a "code" in the query, this is the Google OAuth2 callback
+//         await authStore.handleGoogleCallback(code as string);
+//         router.push('/'); // Redirect to home after successful login
+//     }
+// });
 </script>

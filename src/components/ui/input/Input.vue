@@ -2,7 +2,7 @@
     <div class="input-group">
         <label :for="label">{{ label }}</label>
         <input :type="type" class="input" :placeholder="placeholder" v-model="modelValue"
-            @input="$emit('update:modelValue', modelValue)" />
+            @input="$emit('update:modelValue', modelValue)" :readonly="readonly" :disabled="disabled" />
         <span class="text-red-500">{{ errorMessages }}</span>
     </div>
 </template>

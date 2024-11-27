@@ -17,7 +17,7 @@ const user = [
         component: () => import('@/views/user/CoursePage.vue')
       },
       {
-        path: '/course/detail',
+        path: '/course/detail/:id',
         name: 'user.course.detail',
         component: () => import('@/views/user/CourseDetailView.vue')
       },
@@ -54,6 +54,16 @@ const user = [
         component: () => import('@/views/user/ResetPass.vue')
       },
       {
+        path: '/google/call-back/:jwtToken',
+        name: 'google-call-back',
+        component: () => import('@/views/GoogleCallback.vue')
+      },
+      {
+        path: '/checkout/success',
+        name: 'success-payment',
+        component: () => import('@/views/SuccessPayment.vue')
+      },
+      {
         path: '/forgot-pass',
         name: 'forgot-pass',
         component: () => import('@/views/user/ForgotPass.vue')
@@ -61,36 +71,43 @@ const user = [
       {
         path: '',
         component: UserDashboard,
+        meta: { requiresAuth: true },
         children: [
           {
             path: '/mycourses',
             name: 'mycourses',
-            component: () => import('@/views/user/MyCourses.vue')
+            component: () => import('@/views/user/MyCourses.vue'),
+            meta: { requiresAuth: true }
           },
           {
             path: '/myprofile',
             name: 'myprofile',
-            component: () => import('@/views/user/MyProfile.vue')
+            component: () => import('@/views/user/MyProfile.vue'),
+            meta: { requiresAuth: true }
           },
           {
             path: '/wishlist',
             name: 'wishlist',
-            component: () => import('@/views/user/MyWishlist.vue')
+            component: () => import('@/views/user/MyWishlist.vue'),
+            meta: { requiresAuth: true }
           },
           {
             path: '/history',
             name: 'history',
-            component: () => import('@/views/user/MyHistory.vue')
+            component: () => import('@/views/user/MyHistory.vue'),
+            meta: { requiresAuth: true }
           },
           {
             path: '/security',
             name: 'security',
-            component: () => import('@/views/user/Security.vue')
+            component: () => import('@/views/user/Security.vue'),
+            meta: { requiresAuth: true }
           },
           {
             path: '/mymessage',
             name: 'mymessage',
-            component: () => import('@/views/user/MyMessage.vue')
+            component: () => import('@/views/user/MyMessage.vue'),
+            meta: { requiresAuth: true }
           }
         ]
       }
@@ -101,9 +118,10 @@ const user = [
     component: LayoutCourseVideo,
     children: [
       {
-        path: '/mylearncourse',
+        path: '/mycourses/:id',
         name: 'mylearncourse',
-        component: () => import('@/views/user/MyLearnCourse.vue')
+        component: () => import('@/views/user/MyLearnCourse.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   }

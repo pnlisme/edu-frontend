@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col">
-        <CardProfile />
+        <CardProfile :dataUser="dataUser" />
         <div class="flex flex-col mt-5 gap-2">
-            <router-link v-for="item in menuItems" :key="item.path" :to="item.path"
+            <RouterLink v-for="item in menuItems" :key="item.path" :to="item.path"
                 class="nav-item flex hover:bg-indigo-600 hover:text-white rounded-lg animation font-bold items-center space-x-2 p-2"
                 :class="{
                     'text-white bg-indigo-600': isActive(item.path),
@@ -10,8 +10,8 @@
                 }">
                 <component :is="item.icon" class="w-6 h-6" />
                 <span>{{ item.label }}</span>
-            </router-link>
-            <button
+            </RouterLink>
+            <button @click="handleLogout"
                 class="flex text-gray-600 hover:bg-indigo-600 hover:text-white rounded-lg animation font-bold items-center space-x-2 p-2">
                 <ArrowLeftStartOnRectangleIcon class="w-6 h-6" />
                 <span>Logout</span>
@@ -22,9 +22,11 @@
 
 <script setup lang="ts">
 import CardProfile from '../ui/card/CardProfile.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { ArrowLeftStartOnRectangleIcon, ClipboardDocumentCheckIcon, FolderOpenIcon, ChatBubbleLeftEllipsisIcon, HeartIcon, HomeIcon, LockClosedIcon, UserIcon } from '@heroicons/vue/24/outline';
 import type { MenuItem } from '@/interfaces/ui.interface';
+import type { TUserAuth } from '@/interfaces';
+import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
 const menuItems: MenuItem[] = [
@@ -38,4 +40,14 @@ const menuItems: MenuItem[] = [
 
 const isActive = (path: string) => route.path === path;
 
+
+const router = useRouter()
+
+const authStore = useAuthStore()
+const dataUser = authStore.state.user;
+const handleLogout = () => {
+    logout()
+    router.push('/login')
+}
+const { logout } = authStore
 </script>
