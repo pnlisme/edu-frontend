@@ -25,7 +25,7 @@
                 <div class="hidden xl:block">
                     <div class=" flex items-center gap-5">
                         <ul class="flex gap-5">
-                            <RouterLink class="animation hover:text-indigo-600" to="/login">
+                            <RouterLink class="animation hover:text-indigo-600" to="/register-teacher">
                                 Giảng viên trên Edunity
                             </RouterLink>
                         </ul>
@@ -124,4 +124,6 @@ localStorage.setItem('redirectAfterLogin', currentPath);
 onMounted(async () => {
     await userData()
 })
+
+
 </script>

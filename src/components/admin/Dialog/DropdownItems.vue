@@ -7,6 +7,7 @@ const toggleActive = ref(false);
 
 const ActiveToggle = (val: string[]) => {
   toggleActive.value = !toggleActive.value; 
+  console.log(val);
 };
 
 </script>

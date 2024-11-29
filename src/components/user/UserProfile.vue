@@ -26,6 +26,11 @@
                         </RouterLink>
                     </el-dropdown-item>
                     <el-dropdown-item>
+                        <RouterLink to="/register-teacher">
+                            Giảng viên Edunity
+                        </RouterLink>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
                         <RouterLink to="/history">
                             Lịch sử mua
                         </RouterLink>
@@ -52,8 +57,8 @@ const props = defineProps<{
     dataUser: TUserAuth | null
 }>()
 const handleLogout = () => {
-    logout() // Perform the logout
     router.push('/login') // Redirect to login page
+    logout() // Perform the logout
 }
 const authStore = useAuthStore()
 const { logout } = authStore

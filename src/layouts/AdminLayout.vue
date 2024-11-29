@@ -2,6 +2,7 @@
 import SiderArea from '@/components/admin/Sidebar/SidebarArea.vue';
 import HeaderArea from '@/components/admin/Header/HeaderArea.vue';
 // import '@/assets/css/style.css'
+
 </script>
 <template>
   <!-- ========= Bắt đầu trang============ -->

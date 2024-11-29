@@ -15,13 +15,7 @@ const handleInput = (event: Event) => {
     <label :for="inputId" class="label-input" :class="customsClassChild">
       {{ label }}
     </label>
-    <textarea 
-    :id="inputId" 
-    :name="inputId" 
-    :placeholder="inputPlaceHoder" 
-    :v-model="props.value" 
-    @input="handleInput"
-    :value="modelValue"
+    <textarea :id="inputId" :name="inputId" :placeholder="inputPlaceHoder" :v-model="props.value" @input="handleInput"
       rows="4" class="block p-2.5 input-style" :class="customsClassChild2"></textarea>
   </div>
 </template>

@@ -45,8 +45,8 @@
                     </div>
                     <div class="flex items-end gap-3">
 
-                        <Textarea class="w-[600px] h-full bg-indigo-50 focus-visible:outline-none p-2 rounded-lg"
-                            placeholder="Viết câu hỏi của bạn"></Textarea>
+                        <textarea class="w-[600px] h-full bg-indigo-50 focus-visible:outline-none p-2 rounded-lg"
+                            placeholder="Viết câu hỏi của bạn"></textarea>
                         <div class="">
                             <button class="bg-indigo-600 font-medium text-white px-4 py-1 rounded-lg">Gửi</button>
                         </div>

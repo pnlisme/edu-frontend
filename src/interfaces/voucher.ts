@@ -19,4 +19,5 @@ export interface TVoucherStoreState {
   total_price?: number
   discount?: number
   total_price_after_discount?: number
+  total?: number
 }

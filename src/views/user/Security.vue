@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-20">
+    <div class="mb-20 p-4">
         <div class="">
             <SecurityFrom v-if="dataUser" :dataUser="dataUser" @update-success="handleUpdateSuccess" />
         </div>

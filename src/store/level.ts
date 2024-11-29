@@ -74,7 +74,7 @@ export const useCourseLevelStore = defineStore('courseLevel', () => {
       if (res.data.status === 'FAIL') {
         ElMessage({ type: 'error', message: res.data.error.name[0] })
       } else {
-        ElMessage({ type: 'success', message: 'Tạo mới thành công!' })
+        ElMessage({ type: 'success', message: 'Cập nhật thành công!' })
       }
       await fetchCourseLevelsCURD()
     } catch (error) {

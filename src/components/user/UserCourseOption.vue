@@ -1,33 +1,43 @@
 <template>
     <div>
-        <h3 class="text-2xl font-bold">Nội dung khóa học</h3>
+        <h3 class="text-3xl font-bold mb-6">Nội dung khóa học</h3>
 
-        <div class="border-2 mt-5">
+        <div class="border-2 rounded-lg shadow-lg bg-white">
             <el-collapse class="border-0" v-model="activeNames" accordion>
-                <el-collapse-item v-for="chapter in chapters" :key="chapter.name" :name="chapter.name">
+                <el-collapse-item v-for="chapter in contents" :key="chapter.id" :name="chapter.id.toString()">
                     <template #title>
-                        <div class="px-4 !text-gray-900 flex gap-5 items-center justify-between leading-5">
-                            <h3 class="text-lg">{{ chapter.title }}</h3>
-                            <div class="flex gap-1">
-                                <span class="text-gray-500">{{ chapter.videosCount }}/{{ chapter.totalVideos }}
-                                    Videos</span> •
-                                <span class="text-pink-500">{{ chapter.totalDuration }}</span>
+                        <div class="px-4 py-3 flex gap-5 items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <h3 class="text-lg font-semibold text-gray-800">{{ chapter.title }}</h3>
+                                <span class="text-gray-500 text-sm">{{ chapter.duration_display }}</span>
                             </div>
+                            <!-- <span class="text-gray-600">
+                                {{ chapter.content_done }}/{{ chapter.content_count }} hoàn thành
+                            </span> -->
                         </div>
                     </template>
 
-                    <!-- Loop through lessons within each chapter -->
-                    <div v-for="lesson in chapter.lessons" :key="lesson.name"
-                        class="cursor-pointer flex justify-between items-start bg-gray-50 px-4 py-2">
-                        <div class="flex flex-col">
-                            <h3 :class="lesson.preview ? 'text-indigo-600' : ''">{{ lesson.name }}</h3>
-                            <div class="flex items-center gap-1">
-                                <PlayCircleIcon class="h-4 w-4 text-gray-600" />
-                                <span class="text-pink-500">{{ lesson.duration }}</span>
+                    <!-- Hiển thị các bài giảng trong chương -->
+                    <div v-for="section in chapter.section_content" :key="section.id"
+                        class="cursor-pointer flex justify-between items-center px-6 py-3 bg-gray-50 hover:bg-gray-100 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="" v-if="section.type === 'video'">
+                                <PlayCircleIcon class="h-6 w-6 text-indigo-500" />
+                            </div>
+                            <div class="" v-else>
+                                <DocumentIcon class="h-6 w-6 text-indigo-500" />
+                            </div>
+
+                            <div>
+                                <h4 class="text-gray-800 font-medium" :class="{ 'text-indigo-600': section.learned }">
+                                    {{ section.title }}
+                                </h4>
+                                <span class="text-gray-500 text-sm">{{ section.duration_display }}</span>
                             </div>
                         </div>
-                        <!-- Show preview link if available -->
-                        <span v-if="lesson.preview" class="text-indigo-600">Xem trước</span>
+                        <!-- <span v-if="section.percent" class="text-sm text-gray-600">
+                            {{ section.percent }}% hoàn thành
+                        </span> -->
                     </div>
                 </el-collapse-item>
             </el-collapse>
@@ -35,40 +45,32 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { PlayCircleIcon } from "@heroicons/vue/20/solid";
+import { DocumentIcon, PlayCircleIcon } from '@heroicons/vue/24/outline';
 
-// Keep track of which chapters are open
-const activeNames = ref(['1']);
+// Props nhận từ cha
+defineProps<{
+    contents: Array<{
+        id: number;
+        title: string;
+        duration_display: string;
+        content_count: number;
+        content_done: number;
+        section_content: Array<{
+            id: number;
+            title: string;
+            type: string;
+            duration_display: string;
+            learned: boolean | null;
+            percent: number | null;
+        }>;
+    }>;
+}>();
 
-// Chapters data including lessons
-const chapters = ref([
-    {
-        name: '1',
-        title: 'Chương 1: Course Overview',
-        videosCount: 1,
-        totalVideos: 12,
-        totalDuration: '1h 28m',
-        lessons: [
-            { name: 'Cài đặt phần mềm', duration: '12m', preview: false },
-            { name: 'Code giao diện', duration: '18m', preview: true },
-        ],
-    },
-    {
-        name: '2',
-        title: 'Chương 2: Curriculum',
-        videosCount: 1,
-        totalVideos: 12,
-        totalDuration: '1h 28m',
-        lessons: [
-            { name: 'Vue Templating', duration: '12m', preview: true },
-            { name: 'Vue Forms', duration: '23m', preview: false },
-            { name: 'Vue Styling', duration: '57m', preview: false },
-            { name: 'Vue Routing', duration: '1h 30m', preview: false },
-            { name: 'Vue Animation', duration: '1h 19m', preview: false },
-        ],
-    },
-]);
-
+const activeNames = ref([]);
 </script>
+
+<style scoped>
+/* Tùy chỉnh thêm CSS nếu cần */
+</style>

@@ -12,7 +12,9 @@
                         cụ và kỹ năng để dạy những gì bạn yêu thích.
                     </span>
                     <div class="">
-                        <Button variant="primary">Tham gia ngay</Button>
+                        <RouterLink to="/register-teacher">
+                            <Button variant="primary">Tham gia ngay</Button>
+                        </RouterLink>
                     </div>
                 </div>
             </div>

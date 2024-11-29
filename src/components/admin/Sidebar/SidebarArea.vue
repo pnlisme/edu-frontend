@@ -4,8 +4,9 @@ import logoMinimal from '@/assets/images/minimal-logo.svg'
 import SidebarItems from './SidebarItems.vue';
 import { computed, ref } from 'vue';
 import { WindowIcon, HomeIcon, SquaresPlusIcon, ArchiveBoxIcon, BanknotesIcon, UserGroupIcon, ChatBubbleLeftRightIcon, EnvelopeIcon, DocumentTextIcon, TicketIcon } from '@heroicons/vue/24/outline';
-import { Cog8ToothIcon, InboxStackIcon, LanguageIcon, UserCircleIcon } from '@heroicons/vue/20/solid';
+import { Cog8ToothIcon, InboxStackIcon, LanguageIcon, UserCircleIcon, LockClosedIcon } from '@heroicons/vue/20/solid';
 import type { MenuGroup } from '@/interfaces/admin.interface';
+
 import { useSidebarStore } from '@/store/sidebar';
 import { useAuthStore } from '@/store/auth';
 import { storeToRefs } from 'pinia';
@@ -26,7 +27,7 @@ const menuGroups = ref<MenuGroup[]>([
       {
         icon: HomeIcon,
         label: 'Bảng điều khiển',
-        route: '/admin/dashboard',
+        route: '/admin'
       },
       {
         icon: SquaresPlusIcon,
@@ -74,49 +75,7 @@ const menuGroups = ref<MenuGroup[]>([
       {
         icon: UserGroupIcon,
         label: 'Người dùng',
-        route: '#',
-        children: [
-          {
-            label: 'Giáo viên',
-            route: '#',
-            children: [
-              {
-                label: 'Quản lý giáo viên',
-                route: '/admin/user/user-teacher/user-manager-teacher',
-              },
-              {
-                label: 'Thêm giáo viên',
-                route: '/admin/user/user-teacher/user-add-teacher',
-              },
-              {
-                label: 'Thanh toán',
-                route: '/admin/user/user-teacher/payout',
-              },
-              {
-                label: 'Cài đặt thanh toán',
-                route: '/admin/user/user-teacher/payout-settings',
-              },
-              {
-                label: 'Phê duyệt',
-                route: '/admin/user/user-teacher/accept',
-              },
-            ]
-          },
-          {
-            label: 'Học viên',
-            route: '#',
-            children: [
-              {
-                label: 'Quản lý học viên',
-                route: '/admin/user/user-student/user-manager-student',
-              },
-              {
-                label: 'Thêm học viên',
-                route: '/admin/user/user-student/user-add-student',
-              },
-            ]
-          },
-        ]
+        route: '/admin/user',
       },
       {
         icon: ChatBubbleLeftRightIcon,
@@ -143,9 +102,15 @@ const menuGroups = ref<MenuGroup[]>([
       }
       ,
       {
+        icon: LockClosedIcon,
+        label: 'Bảo mật',
+        route: '/admin/profile-security'
+      },
+
+      {
         icon: UserCircleIcon,
         label: 'Thông tin cá nhân',
-        route: '/admin/profile-settings'
+        route: '/admin/profile-setting'
       },
     ]
   }
@@ -176,6 +141,10 @@ const menuGroupsTeacher = ref<MenuGroup[]>([
           {
             label: 'Thêm khoá học mới',
             route: '/teacher/course/add-course'
+          },
+          {
+            label: 'Phiếu giảm giá',
+            route: '/teacher/course/manager-coupon'
           },
         ]
       },
@@ -225,9 +194,14 @@ const menuGroupsTeacher = ref<MenuGroup[]>([
   {
     menuItems: [
       {
+        icon: LockClosedIcon,
+        label: 'Bảo mật',
+        route: '/teacher/security'
+      },
+      {
         icon: UserCircleIcon,
         label: 'Thông tin cá nhân',
-        route: '/teacher/profile-settings'
+        route: '/teacher/profile-setting'
       },
     ]
 
@@ -246,7 +220,7 @@ const selectedMenuGroups = computed(() => {
       class=" w-[250px] h-[97vh] max-h-screen relative dark:bg-dark-sidebar bg-primary-sidebar rounded-[16px] shadow-sidebar transform duration-100 overflow-y-auto scroll-hidden"
       :class="sidebarClass">
       <!-- SIDEBAR HEADER -->
-      <RouterLink class="flex items-center justify-center" to="/admin">
+      <RouterLink class="flex items-center justify-center" to="/admin/dashboard">
         <img class="pt-4 w-36  " :class="{ 'p-4': currentLogo == logoMinimal }" :src="currentLogo" alt="">
         <!-- <WindowIcon 
             class="hidden sm:block w-6 h-6 dark:hover:text-gray-200 text-gray-400"

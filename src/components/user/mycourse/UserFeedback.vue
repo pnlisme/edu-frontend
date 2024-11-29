@@ -69,38 +69,82 @@
         <!-- COMMENT -->
         <div class="mt-5">
             <div class="flex flex-col gap-5">
-                <CardCourseComment :rate=4 name="Hoang thong" content="I can't thank you enough, Dr. Angela Yu, for this incredible
-            course!
-            Despite being an
-            online course, it has guided me to a solid level of Python programming knowledge. Your
-            lessons are not only informative but also challenging, pushing me closer to my career
-            goals." />
-                <CardCourseComment :rate=4 name="Hoang thong" content="I can't thank you enough, Dr. Angela Yu, for this incredible
-            course!
-            Despite being an
-            online course, it has guided me to a solid level of Python programming knowledge. Your
-            lessons are not only informative but also challenging, pushing me closer to my career
-            goals." />
-                <CardCourseComment :rate=4 name="Hoang thong" content="I can't thank you enough, Dr. Angela Yu, for this incredible
-            course!
-            Despite being an
-            online course, it has guided me to a solid level of Python programming knowledge. Your
-            lessons are not only informative but also challenging, pushing me closer to my career
-            goals." />
+
+                <div v-for="(review, index) in listReview" :key="index">
+                    <CardCourseComment :rate="review.rating" :name="review.user.last_name" :content="review.comment"
+                        :image="review.user.avatar" :created_at="review.created_at" />
+
+                    <!-- <h2>{{ review.comment }}</h2> -->
+                </div>
             </div>
             <div class="flex items-center justify-center mt-5">
-                <Button class="" variant="default"> Xem thêm</Button>
+                <Button variant="default"> Xem thêm</Button>
             </div>
         </div>
+    </div>
+
+
+    <!-- add cmt -->
+    <div class="p-4 border rounded-lg shadow-md">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Đánh giá của bạn</h2>
+        <el-form :model="form" ref="formRef" label-width="100px">
+            <el-form-item label="Rating" prop="rating">
+                <el-rate v-model="form.rating" />
+            </el-form-item>
+            <el-form-item label="Comment" prop="comment">
+                <el-input type="textarea" v-model="form.comment" :rows="3" placeholder="Viết đánh giá tại đây..." />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="submitReview">Xác nhận</el-button>
+                <el-button @click="resetForm" class="ml-2">Đặt lại</el-button>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 
 <script setup lang="ts">
 import Button from '@/components/ui/button/Button.vue';
 import CardCourseComment from '@/components/ui/card/CardCourseComment.vue';
-import { MagnifyingGlassIcon, StarIcon as StarIconSolid } from '@heroicons/vue/20/solid';
+import { useReviewsStore } from '@/store/review';
+import { MagnifyingGlassIcon, StarIcon as StarIconSolid, XMarkIcon } from '@heroicons/vue/20/solid';
 import { StarIcon as StarIconOutline } from '@heroicons/vue/24/outline';
+import { ElMessage } from 'element-plus';
+import { ref } from 'vue';
+export interface TReview {
+    id: number
+    course_id: number
+    rating: number
+    comment: string
+    created_at: string
+    status: 'active' | 'inactive'
+    user: {
+        id: number
+        avatar: string
+        first_name: string
+        last_name: string
+    }
+}
+const props = defineProps<{
+    listReview: TReview[]; idCourse: number
+}>();
+const reviewsStore = useReviewsStore()
+const form = ref({
+    course_id: props.idCourse, // Replace with dynamic course ID
+    rating: 0,
+    comment: '',
+})
+const rules = {
+    rating: [{ required: true, message: 'Please provide a rating.', trigger: 'blur' }],
+    comment: [{ required: true, message: 'Comment cannot be empty.', trigger: 'blur' }],
+};
+const submitReview = async () => {
+    await reviewsStore.createReview(form.value); // Call the store function
+    resetForm();
 
+}
+
+const resetForm = () => {
+    form.value.rating = 0;
+    form.value.comment = '';
+};
 </script>
-
-<style scoped></style>

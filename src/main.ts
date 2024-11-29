@@ -6,7 +6,7 @@ import router from './router/index'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import '@/assets/index.css'
-import '@/assets/css/style.css'
+// import '@/assets/css/style.css'
 // video
 import VideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'

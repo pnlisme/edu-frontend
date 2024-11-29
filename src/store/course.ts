@@ -7,13 +7,15 @@ import type { TChangeContent, TLesson } from '@/interfaces/ui.interface'
 
 export const useCourseStore = defineStore('courseStore', () => {
   // State
-  const course = ref<TCardCourse>()
+  const course = ref<any>()
+  const listCourseAdmin = ref<any>()
   const isLoading = ref<boolean>(false)
   const error = ref<string | null>(null)
   const myCourses = ref<TCardMyCourse[]>([])
   // study
   const currentContent = ref<any>({})
   const allContent = ref<any[]>([])
+  const courseStudySearch = ref<any[]>([])
   const progress = ref(0)
   const activeNames = ref(['0'])
   const studyCourse = ref<any>(null)
@@ -107,10 +109,35 @@ export const useCourseStore = defineStore('courseStore', () => {
     }
   }
 
+  const searchLetureStudy = async (course_id: number, content_keyword: string) => {
+    try {
+      const response = await api.get('/auth/change-content', {
+        params: {
+          course_id: course_id,
+          content_keyword: content_keyword
+        }
+      })
+      courseStudySearch.value = response.data.data.allContent
+    } catch (error) {
+      console.error('Error changing content:', error)
+    }
+  }
+
+  // Teacher
+  const fetchTeacherCourse = async (params: any = {}) => {
+    try {
+      const response = await api.get('auth/instructor/course', { params })
+      listCourseAdmin.value = response.data.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
   // Getter
   const getCourse = () => course.value
   fetchMyCourse()
   return {
+    listCourseAdmin,
+    courseStudySearch,
     studyCourse,
     course,
     myCourses,
@@ -124,6 +151,8 @@ export const useCourseStore = defineStore('courseStore', () => {
     fetchMyCourse,
     fetchStudyCourse,
     changeContent,
-    fetchMyCourseFilter
+    fetchMyCourseFilter,
+    searchLetureStudy,
+    fetchTeacherCourse
   }
 })

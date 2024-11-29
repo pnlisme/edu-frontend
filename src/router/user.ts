@@ -69,6 +69,11 @@ const user = [
         component: () => import('@/views/user/ForgotPass.vue')
       },
       {
+        path: '/register-teacher',
+        name: 'register-teacher',
+        component: () => import('@/views/user/RegisterTeacher.vue')
+      },
+      {
         path: '',
         component: UserDashboard,
         meta: { requiresAuth: true },

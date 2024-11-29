@@ -162,7 +162,6 @@
   padding-left: 2rem;
   padding-right: 1rem;
   line-height: 16px;
-  border-bottom: 0px solid !important;
 }
 .el-collapse-item:last-child {
   border: 2px solid lightgray;
@@ -191,5 +190,4 @@
 .el-collapse-item__btn {
   margin: 0 8px 0 auto;
 }
-
 /* End Collapse */

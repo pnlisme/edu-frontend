@@ -27,7 +27,7 @@ const handleItemClick = () => {
   <li class="relative">
     <RouterLink :to="props.item.route || '/'"
       class="gap-2 flex  hover:bg-slate-500 py-2 px-3 rounded-[5px] items-center relative" :class="{
-        'bg-slate-500': sidebarStore.page === item.label,
+        'bg-slate-500': currentPage === props.item.route || sidebarStore.page === props.item.label,
         'justify-center': sidebarStore.isSidebarOpen
       }" @click.prevent="handleItemClick">
       <component :is="props.item.icon" class="w-4 h-4" :class="{

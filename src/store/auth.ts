@@ -1,18 +1,25 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import api from '@/services/axiosConfig'
-import type { TAuthState, TUpdateUser, TUserAuth } from '@/interfaces/user.interface'
+import type {
+  TAuthState,
+  TUpdateUser,
+  TUpdateUserAdmin,
+  TUserAuth
+} from '@/interfaces/user.interface'
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router'
-import { ElNotification } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
 
 export const useAuthStore = defineStore('auth', () => {
-  
   const state = ref<TAuthState>({
     user: null,
+    allUser: [],
+    deletedUser: [],
     token: Cookies.get('token_user_edu') || null,
     loading: false,
-    error: null
+    error: null,
+    total: 0
   })
   const login = async (email: string, password: string) => {
     state.value.loading = true
@@ -22,8 +29,6 @@ export const useAuthStore = defineStore('auth', () => {
       state.value.token = response.data.access_token
       state.value.user = await response.data.data
       Cookies.set('token_user_edu', response.data.access_token, { expires: 7 }) // Lưu token vào localStorage
-      localStorage.setItem('role', response.data.data.role);
-      console.log(response.data.data);
       return response.data
     } catch (err: any) {
       state.value.error = err.response?.data?.message || 'Đăng nhập thật bại'
@@ -32,13 +37,12 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   const logout = () => {
-    const router = useRouter()
+    // const router = useRouter()
 
     state.value.user = null
     state.value.token = null
     Cookies.remove('token_user_edu')
-    localStorage.removeItem('role'); 
-    router.push('/')
+    // router.push('/')
   }
   const register = async (userData: TUserAuth) => {
     state.value.loading = true
@@ -153,6 +157,139 @@ export const useAuthStore = defineStore('auth', () => {
   //         logout(); // Nếu không lấy được thông tin người dùng, thực hiện logout
   //     }
   // }
+  const fetchAllUser = async (params: any = {}) => {
+    try {
+      const res = await api.get('/auth/get-all-user', { params })
+      state.value.allUser = res.data.data.data
+      state.value.total = res.data.data.total
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // get xoas mem user
+  const fetchDeletedUser = async () => {
+    try {
+      const response = await api.get('/auth/get-all-user?deleted=1')
+      state.value.deletedUser = response.data.data.data
+    } catch (error) {
+      state.value.error = 'Không thể tải danh sách cấp độ đã xóa!'
+    }
+  }
+  // xoa mem
+  const deleteUser = async (id: number) => {
+    try {
+      await api.delete(`/auth/delete-user/${id}`)
+      await fetchAllUser()
+      ElMessage({ type: 'success', message: 'Xóa thành công!' })
+    } catch (error) {
+      ElMessage({ type: 'error', message: 'Xóa thất bại!' })
+    }
+  }
+  // xoa vinh vien
+  const deleteForceUser = async (id: number) => {
+    try {
+      await api.post(`/auth/force-delete-user/${id}`)
+      await fetchAllUser()
+      ElMessage({ type: 'success', message: 'Xóa thành công!' })
+    } catch (error) {
+      ElMessage({ type: 'error', message: 'Xóa thất bại!' })
+    }
+  }
+  // chi tiet user
+  const detailUser = async (id: number) => {
+    try {
+      await api.delete(`/auth/get-detail-user/${id}`)
+      await fetchAllUser()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const updateProfile = async (data: TUpdateUser) => {
+    state.value.loading = true
+    state.value.error = null
+
+    try {
+      const response = await api.post('auth/update-profile', data)
+      return response.data
+    } catch (err: any) {
+      state.value.error = err.response?.data?.message || 'Cập nhật thất bại'
+      throw err
+    } finally {
+      state.value.loading = false
+    }
+  }
+  const updateProfileTeacher = async (data: string) => {
+    state.value.loading = true
+    state.value.error = null
+    const role = {
+      role: data
+    }
+    try {
+      const response = await api.post('auth/update-profile', role)
+      return response.data
+    } catch (err: any) {
+      state.value.error = err.response?.data?.message || 'Cập nhật thất bại'
+      throw err
+    } finally {
+      state.value.loading = false
+    }
+  }
+  const createUserAdmin = async (userData: TUpdateUserAdmin) => {
+    try {
+      const res = await api.post('/auth/create-user', userData)
+      if (res.data.status === 'FAIL') {
+        ElMessage({ type: 'error', message: 'Kiểm tra email, mật khẩu' })
+      } else {
+        ElMessage({ type: 'success', message: 'Tạo mới thành công!' })
+      }
+      await fetchAllUser()
+    } catch (error: any) {
+      ElMessage({ type: 'error', message: 'Kiểm tra email, mật khẩu' })
+    }
+  }
+  const updateUserAdmin = async (userData: TUpdateUserAdmin) => {
+    try {
+      const data = {
+        user_id: userData.id,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        email: userData.email,
+        role: userData.role,
+        status: userData.status
+      }
+
+      const res = await api.post('/auth/admin-update-user', data)
+      if (res.data.status === 'FAIL') {
+        ElMessage({ type: 'error', message: 'Cập nhật thất bại' })
+      } else {
+        ElMessage({ type: 'success', message: 'Cập nhật thành công!' })
+      }
+      await fetchAllUser()
+    } catch (error: any) {
+      ElMessage({ type: 'error', message: 'Kiểm tra email, mật khẩu' })
+    }
+  }
+  // Khôi phục
+  const restoreUser = async (id: number) => {
+    try {
+      await api.post(`/auth/restore-user/${id}`)
+      await fetchDeletedUser()
+      await fetchAllUser()
+      ElMessage({ type: 'success', message: 'Khôi phục thành công!' })
+    } catch (error) {
+      ElMessage({ type: 'error', message: 'Khôi phục thất bại!' })
+    }
+  }
+  // trang thai
+  const isActiveUser = async (id: number) => {
+    try {
+      await api.post(`/auth/block/unblock-user/${id}`)
+      await fetchAllUser()
+      await fetchDeletedUser()
+    } catch (error) {
+      state.value.error = 'Không thể khôi phục ngôn ngữ!'
+    }
+  }
   return {
     state,
     login,
@@ -163,7 +300,18 @@ export const useAuthStore = defineStore('auth', () => {
     resetPass,
     getGoogleSignInUrl,
     handleGoogleCallback,
-    uploadProfileImage
+    uploadProfileImage,
+    fetchAllUser,
+    fetchDeletedUser,
+    deleteUser,
+    deleteForceUser,
+    detailUser,
+    createUserAdmin,
+    updateUserAdmin,
+    restoreUser,
+    isActiveUser,
+    updateProfile,
+    updateProfileTeacher
     // fetchCurrentUser
     // fetchUserData
   }

@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import api from '@/services/axiosConfig'
 
-export const useMessageStore = defineStore('messageStore',  {
+export const useMessageStore = defineStore('messageStore', {
   state: () => {
-    return { 
+    return {
       waitingUserChat: null as any
     }
   },
@@ -15,6 +15,5 @@ export const useMessageStore = defineStore('messageStore',  {
     setWaitingUserChat(id: any) {
       this.waitingUserChat = id
     }
-  },
-
+  }
 })

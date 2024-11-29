@@ -1,22 +1,36 @@
 <template>
     <div class="p-5 bg-white rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-4 text-gray-800">Monthly Inflation in Argentina, 2002</h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Thành viên đăng ký</h2>
         <ApexCharts class="w-full" type="bar" height="350" :options="chartOptions" :series="series"></ApexCharts>
-        <!-- <el-button class="mt-4" type="primary" @click="updateData">Update Data</el-button> -->
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import ApexCharts from "vue3-apexcharts";
 
+// Nhận dữ liệu từ props
+const props = defineProps<{
+    data: { period: string; registrations: number }[];
+}>();
+
+// Tạo series và categories từ dữ liệu props
 const series = ref([
     {
-        name: "Inflation",
-        data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2],
+        name: "Registrations",
+        data: [] as number[], // Mảng dữ liệu cho trục Y
     },
 ]);
 
+const categories = ref([] as string[]); // Mảng dữ liệu cho trục X
+
+// Theo dõi và cập nhật dữ liệu khi props.data thay đổi
+watchEffect(() => {
+    categories.value = props.data.map((item) => item.period); // Lấy dữ liệu `period` cho trục X
+    series.value[0].data = props.data.map((item) => item.registrations); // Lấy dữ liệu `registrations` cho trục Y
+});
+
+// Cấu hình biểu đồ
 const chartOptions = ref({
     chart: {
         height: 350,
@@ -32,7 +46,7 @@ const chartOptions = ref({
     },
     dataLabels: {
         enabled: true,
-        formatter: (val: number) => `${val}%`,
+        formatter: (val: number) => `${val}`, // Hiển thị giá trị trực tiếp
         offsetY: -20,
         style: {
             fontSize: "12px",
@@ -40,20 +54,7 @@ const chartOptions = ref({
         },
     },
     xaxis: {
-        categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
+        categories: categories.value, // Gắn danh sách categories vào trục X
         position: "top",
         axisBorder: {
             show: false,
@@ -85,8 +86,8 @@ const chartOptions = ref({
             show: false,
         },
         labels: {
-            show: false,
-            formatter: (val: number) => `${val}%`,
+            show: true,
+            formatter: (val: number) => `${val}`,
         },
     },
     title: {
@@ -99,12 +100,4 @@ const chartOptions = ref({
         },
     },
 });
-
-const updateData = () => {
-    series.value[0].data = Array.from({ length: 12 }, () =>
-        parseFloat((Math.random() * 10).toFixed(1))
-    );
-};
 </script>
-
-<style scoped></style>

@@ -1,6 +1,6 @@
 // src/composables/useShowCourse.ts
 import { ref } from 'vue'
-import api from '@/services/axiosConfig'
+import axios from 'axios'
 // import { myToken } from '@/interfaces/token';
 import type { TCourseAdmin } from '@/interfaces/course.interface'
 
@@ -19,7 +19,7 @@ export const useShowCourse = () => {
     // axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.value}`;
 
     try {
-      const response = await api.get(`auth/courses?limit=${limit}`)
+      const response = await axios.get(`http://localhost:8000/api/auth/courses?limit=${limit}`)
       console.log('Dữ liệu nhận được:', response.data.data.data)
       if (Array.isArray(response.data.data.data)) {
         courses.value = response.data.data.data // Gán dữ liệu cho courses
@@ -28,7 +28,12 @@ export const useShowCourse = () => {
       }
     } catch (err: unknown) {
       // Chỉ định kiểu unknown cho err
-      
+      if (axios.isAxiosError(err)) {
+        // Kiểm tra nếu là lỗi Axios
+        error.value = err.response ? err.response.data : err.message // Lưu thông tin lỗi
+      } else {
+        error.value = 'Đã xảy ra lỗi không xác định'
+      }
       console.error('Lỗi fetch dữ liệu course:', error.value)
     } finally {
       isLoading.value = false

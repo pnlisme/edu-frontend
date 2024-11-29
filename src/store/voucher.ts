@@ -15,17 +15,22 @@ export const useVoucherStore = defineStore('voucher', () => {
     error: null,
     total_price: undefined,
     discount: undefined,
-    total_price_after_discount: undefined
+    total_price_after_discount: undefined,
+    total: 0
   })
   //  Get toàn bộ Voucher
-  const fetchVouchers = async () => {
+  const fetchVouchers = async (params: any = {}) => {
     try {
-      const response = await api.get('/auth/vouchers')
+      // const response = await api.get('/auth/vouchers')
+      const response = await api.get('/auth/vouchers/list-vouchers-admin', { params })
       state.value.vouchers = response.data.data.data
+
+      state.value.total = response.data.data.total
     } catch (error) {
       state.value.error = 'Không thể tải danh sách vouchers'
     }
   }
+
   // Get chi tiết Voucher (Không get Voucher đã xóa mềm)
   const fetchVoucherDetails = async (code: string) => {
     try {

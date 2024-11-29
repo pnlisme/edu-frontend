@@ -37,7 +37,6 @@ router.beforeEach(async (to, from, next) => {
       type: 'warning'
     })
   }
-
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
   } else if (to.meta.role) {

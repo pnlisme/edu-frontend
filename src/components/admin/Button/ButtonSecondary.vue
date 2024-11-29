@@ -3,8 +3,8 @@ import { defineProps } from 'vue';
 
 const props = defineProps<{
   icon?: any,
-  link?: string,
-  title?: string
+  link: string,
+  title: string
   customStyle?: string
 }>();
 

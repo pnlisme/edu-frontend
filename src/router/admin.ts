@@ -4,6 +4,7 @@ import Category from '@/views/admin/Category.vue'
 import ManagerCourse from '@/views/admin/Course/ManagerCourse.vue'
 import ManagerCoupon from '@/views/admin/Course/ManagerCoupon.vue'
 import AddCourse from '@/views/admin/Course/AddCourse.vue'
+import AddCourseDetail from '@/views/admin/Course/AddCourseDetail.vue'
 import ReportpaymentAdmin from '@/views/admin/Reportpayment/ReportpaymentAdmin.vue'
 import ReportpaymentTeacher from '@/views/admin/Reportpayment/ReportpaymentTeacher.vue'
 import PaymentHistory from '@/views/admin/Reportpayment/PaymentHistory.vue'
@@ -15,16 +16,20 @@ import AcceptTeacher from '@/views/admin/Users/AcceptTeacher.vue'
 import Voucher from '@/views/admin/Voucher.vue'
 import Level from '@/views/admin/Level.vue'
 import Language from '@/views/admin/Language.vue'
+import User from '@/views/admin/User.vue'
+import Security from '@/views/user/Security.vue'
+import MyProfile from '@/views/user/MyProfile.vue'
 const admin = [
   {
     path: '/admin',
     name: 'admin',
     component: AdminLayout,
+
     meta: { requiresAuth: true, role: 'admin', title: 'Trang quản trị | Edunity' },
 
     children: [
       {
-        path: '/admin/dashboard',
+        path: '/admin',
         name: 'admin.dashboard',
         component: Dashboard,
         meta: { requiresAuth: true, role: 'admin', title: 'Bảng điều khiển ' }
@@ -48,6 +53,7 @@ const admin = [
         path: '/admin/course',
         name: 'admin.course',
         component: ManagerCourse,
+
         meta: { requiresAuth: true, role: 'admin', title: 'Khoá học | Edunity' }
       },
       {
@@ -68,12 +74,12 @@ const admin = [
         component: ManagerCoupon,
         meta: { requiresAuth: true, role: 'admin', title: 'Thêm khoá học mới | Edunity' }
       },
-      // {
-      //   path: '/admin/course/add-course-detail',
-      //   name: 'admin.add-course-detail',
-      //   component: AddCourseDetail,
-      //   meta: { requiresAuth: true, role: 'admin', title: 'Thêm khoá học chi tiết | Edunity' }
-      // },
+      {
+        path: '/admin/course/add-course-detail',
+        name: 'admin.add-course-detail',
+        component: AddCourseDetail,
+        meta: { requiresAuth: true, role: 'admin', title: 'Thêm khoá học chi tiết | Edunity' }
+      },
       {
         path: '/admin/reportpayment',
         name: 'admin.reportpayment',
@@ -149,8 +155,20 @@ const admin = [
       {
         path: '/admin/user',
         name: 'admin.user',
-        component: Language,
+        component: User,
         meta: { requiresAuth: true, role: 'admin', title: 'Người dùng | Edunity' }
+      },
+      {
+        path: '/admin/profile-security',
+        name: 'admin.profile-security',
+        component: Security,
+        meta: { requiresAuth: true, role: 'admin', title: 'Bảo mật | Edunity' }
+      },
+      {
+        path: '/admin/profile-setting',
+        name: 'admin.user',
+        component: MyProfile,
+        meta: { requiresAuth: true, role: 'admin', title: 'Chỉnh sửa thông tin | Edunity' }
       }
     ]
   }

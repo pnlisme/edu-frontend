@@ -38,7 +38,7 @@ export function useLanguage() {
       await languageStore.createLanguage(languageForm.value)
       drawerVisible.value = false
     } catch (error) {
-      console.log(error)
+      ElMessage({ type: 'error', message: 'Kiểm tra email, mật khẩu' })
     }
   }
   const handleUpdate = async () => {

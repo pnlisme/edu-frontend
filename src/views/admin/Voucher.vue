@@ -3,7 +3,12 @@
         <h1 class="text-xl font-bold mb-4">Quản lý Voucher</h1>
         <!-- Nút thêm voucher mới -->
         <div class="flex items-center gap-1">
-
+            <el-input class="w-48" v-model="filters.keyword" placeholder="Tìm kiếm" clearable @input="fetchVoucher" />
+            <el-select class="w-48 " v-model="filters.status" placeholder="Chọn trạng thái" clearable
+                @change="fetchVoucher">
+                <el-option label="Hoạt động" value="active" />
+                <el-option label="Không hoạt động" value="inactive" />
+            </el-select>
             <el-button type="primary" class="flex items-center gap-1" @click="openDrawer">
                 <PlusIcon class="h-5 w-5 text-white cursor-pointer" />
                 Thêm Voucher
@@ -47,7 +52,10 @@
                 </template>
             </el-table-column>
         </el-table>
-
+        <div class="mt-4 flex justify-center">
+            <el-pagination v-model:current-page="pagination.currentPage" :page-size="pagination.perPage"
+                :total="pagination.total" layout="prev, pager, next" @current-change="handlePageChange" />
+        </div>
         <!-- Drawer tạo và chỉnh sửa voucher -->
         <el-dialog align-center title="Tạo Voucher" class="z-20" v-model="drawerVisible" width="60%">
             <form @submit.prevent="handleSubmit">
@@ -175,7 +183,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useVoucherStore } from '@/store/voucher'
 import type { TVoucher } from '@/interfaces/voucher';
 import { PencilSquareIcon, TrashIcon, ArrowPathIcon, PlusIcon } from "@heroicons/vue/24/outline";
@@ -197,4 +205,33 @@ const {
     handleDeleteVoucher,
     restoreVoucher,
 } = useVoucher();
+const filters = reactive({
+    keyword: '',
+    status: '',
+});
+
+const pagination = reactive({
+    currentPage: 1,
+    perPage: 7,
+    total: 0,
+});
+
+const fetchVoucher = async () => {
+    const params = {
+        per_page: pagination.perPage,
+        page: pagination.currentPage,
+        keyword: filters.keyword,
+        status: filters.status,
+        deleted: 0,
+    };
+    await voucherStore.fetchVouchers(params);
+    pagination.total = voucherStore.state.total ?? 0;
+};
+const handlePageChange = (page: number) => {
+    pagination.currentPage = page;
+    fetchVoucher();
+};
+onMounted(() => {
+    fetchVoucher();
+});
 </script>

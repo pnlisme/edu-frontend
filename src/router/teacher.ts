@@ -1,37 +1,34 @@
 import LayoutCourseVideo from '@/layouts/LayoutCourseVideo.vue'
 import TeacherLayout from '@/layouts/TeacherLayout.vue'
-import AddCourse from '@/views/admin/Course/AddCourse.vue'
-import EditCourse from '@/views/admin/Course/EditCourse.vue'
-import ManagerCourse from '@/views/admin/Course/ManagerCourse.vue'
+import UserDashboard from '@/layouts/UserDashboard.vue'
+import MyProfile from '@/views/user/MyProfile.vue'
+import Security from '@/views/user/Security.vue'
 
 const teacher = [
   {
-    path: '/teacher/',
+    path: '/teacher',
+    // component: () => import('@/layouts/ClientLayout.vue'),
     component: TeacherLayout,
+    meta: { requiresAuth: true, role: 'instructor', title: 'Thống kê | Edunity' },
     children: [
       {
-        path: '',
+        path: '/teacher',
         name: 'teacher.index',
-        component: () => import('@/views/teacher/DashboardPage.vue')
+        component: () => import('@/views/teacher/DashboardPage.vue'),
+        meta: { requiresAuth: true, role: 'instructor', title: 'Thống kê | Edunity' }
       },
       {
-        path: '/teacher/course/manager-course',
-        name: 'teacher.course',
-        component: ManagerCourse,
-        meta: { requiresAuth: true, role: 'instructor', title: 'Khoá học | Edunity' }
+        path: '/teacher/security',
+        name: 'teacher.security',
+        component: Security,
+        meta: { requiresAuth: true, role: 'instructor', title: 'Bảo mật | Edunity' }
       },
       {
-        path: '/teacher/course/add-course',
-        name: 'teacher.add-course',
-        component: AddCourse,
-        meta: { requiresAuth: true, role: 'instructor', title: 'Thêm khoá học mới | Edunity' }
-      },
-      {
-        path: '/teacher/course/edit-course/:id',
-        name: 'teacher.edit-course',
-        component: EditCourse,
-        meta: { requiresAuth: true, role: 'instructor', title: 'Thêm khoá học mới | Edunity' }
-      },
+        path: '/teacher/profile-setting',
+        name: 'teacher.profile-setting',
+        component: MyProfile,
+        meta: { requiresAuth: true, role: 'instructor', title: 'Cài đặt| Edunity' }
+      }
     ]
   }
 ]
