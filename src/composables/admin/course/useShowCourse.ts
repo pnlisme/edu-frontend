@@ -19,7 +19,7 @@ export const useShowCourse = () => {
     // axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.value}`;
 
     try {
-      const response = await axios.get(`http://localhost:8000/api/auth/courses?limit=${limit}`)
+      const response = await axios.get(`https://toannt.id.vn/public/api/auth/courses?limit=${limit}`)
       console.log('Dữ liệu nhận được:', response.data.data.data)
       if (Array.isArray(response.data.data.data)) {
         courses.value = response.data.data.data // Gán dữ liệu cho courses
