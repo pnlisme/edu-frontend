@@ -20,7 +20,10 @@
                     </div>
                 </div>
 
-                <img class="w-1/2" :src="imgBaner" alt="">
+                <!-- <img class="w-1/2" :src="imgBaner" alt=""> -->
+                <img v-if="headerBanner" class="w-1/2" :src="headerBanner.image_url" alt="Banner Image" />
+                <!-- Hiển thị hình ảnh mặc định nếu không có banner -->
+                <img v-else class="w-1/2" :src="imgBaner" alt="Default Banner" />
             </div>
         </div>
     </section>
@@ -28,7 +31,21 @@
 <script setup lang="ts">
 import Button from '../ui/button/Button.vue';
 import imgBaner from '../../assets/images/OBJECTS.png'
+import { useBanner } from '@/store/banner';
+import { computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
+
+const bannerStore = useBanner();
+const { listBanner } = bannerStore;
+const { state } = storeToRefs(bannerStore)
+const headerBanner = computed(() => {
+    return state.value.listBanner
+        .filter((item: any) => item.position === 'header' && item.status === 1)[0] || null;
+});
+onMounted(async () => {
+    await listBanner();
+})
 </script>
 <style scoped>
 .background-section {

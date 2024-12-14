@@ -16,9 +16,10 @@ export const apisStore = defineStore('fetchApi', () => {
   const languagies = ref<Tlevel[]>([])
   const coursesPopular = ref<TCardCourse[]>([])
   const coursesRate = ref<TCardCourse[]>([])
+  const coursesNew = ref<TCardCourse[]>([])
   const billHistory = ref<TBill[]>([])
   const billHistoryDetail = ref<TBill | null>(null)
-
+  const loading = ref(false)
   // Actions for fetching different data
   const fetchCate = async () => {
     try {
@@ -29,19 +30,36 @@ export const apisStore = defineStore('fetchApi', () => {
     }
   }
   const fetchRateCourse = async () => {
+    loading.value = true
     try {
       const res = await api.get('/get-top-rated-courses?limit=5')
       coursesRate.value = res.data.data
     } catch (error) {
       console.error('Error fetching :', error)
+    } finally {
+      loading.value = false
     }
   }
   const fetchPopularCourse = async () => {
+    loading.value = true
     try {
       const res = await api.get('/get-popular-courses?limit=5')
       coursesPopular.value = res.data.data
     } catch (error) {
       console.error('Error fetching :', error)
+    } finally {
+      loading.value = false
+    }
+  }
+  const fetchNewCourse = async () => {
+    loading.value = true
+    try {
+      const res = await api.get('/get-new-courses?limit=5')
+      coursesNew.value = res.data.data
+    } catch (error) {
+      console.error('Error fetching :', error)
+    } finally {
+      loading.value = false
     }
   }
   const fetchLevel = async () => {
@@ -114,8 +132,10 @@ export const apisStore = defineStore('fetchApi', () => {
       (category) => !category.children || category.children.length === 0
     )
   })
-
+  
   return {
+    loading,
+    coursesNew,
     billHistoryDetail,
     billHistory,
     languagies,
@@ -134,6 +154,7 @@ export const apisStore = defineStore('fetchApi', () => {
     fetchPopularCourse,
     fetchBill,
     fetchBillDetail,
+    fetchNewCourse,
     getCourses,
     categoriesWithChildren,
     categoriesWithoutChildren

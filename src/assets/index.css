@@ -4,7 +4,7 @@
 
 @layer components {
   .container-user {
-    @apply px-5 md:px-10 lg:px-10 mx-auto;
+    @apply container px-5 md:px-10 lg:px-10 mx-auto;
   }
   .animation {
     @apply hover:transition-all transition-all hover:duration-300 duration-300;

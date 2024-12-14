@@ -1,5 +1,5 @@
 <template>
-    <form class="flex flex-col gap-3" @submit.prevent="handleSubmit">
+    <form class="flex flex-col gap-3" @submit.prevent="handleSubmitProfile">
         <div class="grid grid-cols-2 gap-5">
             <Input v-model="formData.first_name" label="Họ" placeholder="Nhập họ" />
             <Input v-model="formData.last_name" label="Tên" placeholder="Nhập tên" />
@@ -33,5 +33,5 @@ const props = defineProps<{ dataUser: TUpdateUser }>();
 const emit = defineEmits(['update-success']);
 
 // Sử dụng composable để lấy formData và handleSubmit
-const { formData, handleSubmit } = useUpdateProfile(props.dataUser, emit);
+const { formData, handleSubmitProfile } = useUpdateProfile(props.dataUser, emit);
 </script>

@@ -22,7 +22,7 @@ export const useVoucherStore = defineStore('voucher', () => {
   const fetchVouchers = async (params: any = {}) => {
     try {
       // const response = await api.get('/auth/vouchers')
-      const response = await api.get('/auth/vouchers/list-vouchers-admin', { params })
+      const response = await api.get('/vouchers/list-vouchers-admin', { params })
       state.value.vouchers = response.data.data.data
 
       state.value.total = response.data.data.total
@@ -121,6 +121,13 @@ export const useVoucherStore = defineStore('voucher', () => {
       })
     }
   }
+  const firstActiveVoucher = computed(() => {
+    const currentDate = new Date() // Lấy ngày hiện tại
+    return state.value.vouchers.find((voucher) => {
+      const expiryDate = new Date(voucher.expires_at!) // Chuyển ngày hết hạn thành đối tượng Date
+      return voucher.status === 'active' && expiryDate > currentDate // Kiểm tra trạng thái và ngày hết hạn
+    })
+  })
   return {
     state,
     fetchVouchers,
@@ -131,6 +138,7 @@ export const useVoucherStore = defineStore('voucher', () => {
     restoreVoucher,
     applyVoucher,
     updateVoucher,
+    firstActiveVoucher,
     voucher: computed(() => state.value.appliedVoucher),
     discount: computed(() => state.value.discount),
     total_price_after_discount: computed(() => state.value.total_price_after_discount)

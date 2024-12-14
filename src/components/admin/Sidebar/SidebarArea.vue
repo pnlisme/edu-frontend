@@ -3,8 +3,8 @@ import logo from '@/assets/images/logo2.svg'
 import logoMinimal from '@/assets/images/minimal-logo.svg'
 import SidebarItems from './SidebarItems.vue';
 import { computed, ref } from 'vue';
-import { WindowIcon, HomeIcon, SquaresPlusIcon, ArchiveBoxIcon, BanknotesIcon, UserGroupIcon, ChatBubbleLeftRightIcon, EnvelopeIcon, DocumentTextIcon, TicketIcon } from '@heroicons/vue/24/outline';
-import { Cog8ToothIcon, InboxStackIcon, LanguageIcon, UserCircleIcon, LockClosedIcon } from '@heroicons/vue/20/solid';
+import { WindowIcon, HomeIcon, SquaresPlusIcon, ArchiveBoxIcon, BanknotesIcon, UserGroupIcon, ChatBubbleLeftRightIcon, EnvelopeIcon, DocumentTextIcon, TicketIcon, NewspaperIcon, FolderMinusIcon } from '@heroicons/vue/24/outline';
+import { Cog8ToothIcon, InboxStackIcon, LanguageIcon, UserCircleIcon, LockClosedIcon, CreditCardIcon } from '@heroicons/vue/20/solid';
 import type { MenuGroup } from '@/interfaces/admin.interface';
 
 import { useSidebarStore } from '@/store/sidebar';
@@ -37,56 +37,64 @@ const menuGroups = ref<MenuGroup[]>([
       {
         icon: ArchiveBoxIcon,
         label: 'Khoá học',
-        route: '#',
-        children: [
-          {
-            label: 'Quản lý khoá học',
-            route: '/admin/course/manager-course'
-          },
-          {
-            label: 'Thêm khoá học mới',
-            route: '/admin/course/add-course'
-          },
-          {
-            label: 'Phiếu giảm giá',
-            route: '/admin/course/manager-coupon'
-          },
-        ]
+        route: '/admin/course/manager-course',
+        // children: [
+        //   {
+        //     label: 'Quản lý khoá học',
+        //     route: '/admin/course/manager-course'
+        //   },
+        // ]
+      },
+      // {
+      //   icon: BanknotesIcon,
+      //   label: 'Báo cáo doanh thu',
+      //   route: '#',
+      //   children: [
+      //     {
+      //       label: 'Doanh thu admin',
+      //       route: '/admin/reportpayment/admin-revenue'
+      //     },
+      //     {
+      //       label: 'Doanh thu giáo viên',
+      //       route: '/admin/reportpayment/teacher-revenue'
+      //     },
+      //     {
+      //       label: 'Lịch sử mua hàng',
+      //       route: '/admin/reportpayment/history'
+      //     },
+      //   ]
+      // },
+      {
+        icon: CreditCardIcon,
+        label: 'Thanh toán',
+        route: '/admin/payment',
       },
       {
-        icon: BanknotesIcon,
-        label: 'Báo cáo doanh thu',
-        route: '#',
-        children: [
-          {
-            label: 'Doanh thu admin',
-            route: '/admin/reportpayment/admin-revenue'
-          },
-          {
-            label: 'Doanh thu giáo viên',
-            route: '/admin/reportpayment/teacher-revenue'
-          },
-          {
-            label: 'Lịch sử mua hàng',
-            route: '/admin/reportpayment/history'
-          },
-        ]
+        icon: NewspaperIcon,
+        label: 'Đánh giá',
+        route: '/admin/user-review',
       },
       {
         icon: UserGroupIcon,
         label: 'Người dùng',
         route: '/admin/user',
       },
-      {
-        icon: ChatBubbleLeftRightIcon,
-        label: 'Tin nhắn',
-        route: '/admin/message',
-      }
-      ,
+      // {
+      //   icon: ChatBubbleLeftRightIcon,
+      //   label: 'Tin nhắn',
+      //   route: '/admin/message',
+      // }
+      // ,
       {
         icon: TicketIcon,
         label: 'Mã giảm giá',
         route: '/admin/voucher',
+      }
+      ,
+      {
+        icon: FolderMinusIcon,
+        label: 'Quản lý banner',
+        route: '/admin/banner',
       }
       ,
       {
@@ -122,31 +130,31 @@ const menuGroupsTeacher = ref<MenuGroup[]>([
       {
         icon: HomeIcon,
         label: 'Bảng điều khiển',
-        route: '/teacher/dashboard'
+        route: '/teacher'
       },
-      {
-        icon: SquaresPlusIcon,
-        label: 'Danh mục',
-        route: '/teacher/category'
-      },
+
       {
         icon: ArchiveBoxIcon,
         label: 'Khoá học',
-        route: '#',
-        children: [
-          {
-            label: 'Quản lý khoá học',
-            route: '/teacher/course/manager-course'
-          },
-          {
-            label: 'Thêm khoá học mới',
-            route: '/teacher/course/add-course'
-          },
-          {
-            label: 'Phiếu giảm giá',
-            route: '/teacher/course/manager-coupon'
-          },
-        ]
+        route: '/teacher/course/list',
+        // children: [
+        //   {
+        //     label: 'Danh sách khóa học',
+        //     route: '/teacher/course/list'
+        //   },
+        //   // {
+        //   //   label: 'Quản lý khoá học',
+        //   //   route: '/teacher/course/manager-course'
+        //   // },
+        //   // {
+        //   //   label: 'Thêm khoá học mới',
+        //   //   route: '/teacher/course/add-course'
+        //   // },
+        //   // {
+        //   //   label: 'Phiếu giảm giá',
+        //   //   route: '/teacher/course/manager-coupon'
+        //   // },
+        // ]
       },
       // {
       //   icon: CubeIcon,
@@ -181,12 +189,25 @@ const menuGroupsTeacher = ref<MenuGroup[]>([
       {
         icon: UserGroupIcon,
         label: 'Quản lí học viên',
-        route: '/teacher/student',
-      },
+        route: '/teacher/student-manager',
+      }
+      ,
+      // {
+      //   icon: ChatBubbleLeftRightIcon,
+      //   label: 'Tin nhắn',
+      //   route: '/teacher/message',
+      // }
+      // ,
       {
-        icon: ChatBubbleLeftRightIcon,
-        label: 'Tin nhắn',
-        route: '/teacher/message',
+        icon: BanknotesIcon,
+        label: 'Rút tiền',
+        route: '/teacher/payment',
+      }
+      ,
+      {
+        icon: CreditCardIcon,
+        label: 'Phương thức thanh toán',
+        route: '/teacher/payment-method',
       }
 
     ]
@@ -220,7 +241,7 @@ const selectedMenuGroups = computed(() => {
       class=" w-[250px] h-[97vh] max-h-screen relative dark:bg-dark-sidebar bg-primary-sidebar rounded-[16px] shadow-sidebar transform duration-100 overflow-y-auto scroll-hidden"
       :class="sidebarClass">
       <!-- SIDEBAR HEADER -->
-      <RouterLink class="flex items-center justify-center" to="/admin/dashboard">
+      <RouterLink class="flex items-center justify-center" to="/">
         <img class="pt-4 w-36  " :class="{ 'p-4': currentLogo == logoMinimal }" :src="currentLogo" alt="">
         <!-- <WindowIcon 
             class="hidden sm:block w-6 h-6 dark:hover:text-gray-200 text-gray-400"

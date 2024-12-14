@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 // import { myToken } from '@/interfaces/token';
 import type { TCourseAdmin } from '@/interfaces/course.interface'
+import api from '@/services/axiosConfig'
 
 export const useShowCourse = () => {
   const courses = ref<TCourseAdmin[]>([])
@@ -19,8 +20,7 @@ export const useShowCourse = () => {
     // axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.value}`;
 
     try {
-      const response = await axios.get(`https://toannt.id.vn/public/api/auth/courses?limit=${limit}`)
-      console.log('Dữ liệu nhận được:', response.data.data.data)
+      const response = await api.get(`/auth/courses?limit=${limit}`)
       if (Array.isArray(response.data.data.data)) {
         courses.value = response.data.data.data // Gán dữ liệu cho courses
       } else {

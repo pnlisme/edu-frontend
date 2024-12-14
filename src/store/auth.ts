@@ -10,7 +10,6 @@ import type {
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElNotification } from 'element-plus'
-
 export const useAuthStore = defineStore('auth', () => {
   const state = ref<TAuthState>({
     user: null,
@@ -42,6 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
     state.value.user = null
     state.value.token = null
     Cookies.remove('token_user_edu')
+    location.reload()
     // router.push('/')
   }
   const register = async (userData: TUserAuth) => {
@@ -66,18 +66,18 @@ export const useAuthStore = defineStore('auth', () => {
       if (isToken.status === 'FAIL') {
         logout()
         router.push('/')
-        ElNotification({
-          title: 'Thất bại',
-          message: isToken.message || 'Bạn không có quyền truy cập',
-          type: 'error'
-        })
+        // ElNotification({
+        //   title: 'Thất bại',
+        //   message: isToken.message || 'Bạn không có quyền truy cập',
+        //   type: 'error'
+        // })
         return null
       }
       state.value.user = await response.data.data
       // console.log(state.value.user)
       // return response.data.data
     } catch (err: any) {
-      state.value.error = err.response?.data?.message || 'Registration failed'
+      // state.value.error = err.response?.data?.message || 'Registration failed'
     } finally {
       state.value.loading = false
     }

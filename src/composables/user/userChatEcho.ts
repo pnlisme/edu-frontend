@@ -14,7 +14,7 @@ const echo = new Echo({
   cluster: 'ap1',
   // forceTLS: true,
   encrypted: true,
-  authEndpoint: 'https://toannt.id.vn/public/api/broadcasting/auth',
+  authEndpoint: 'https://toannt.id.vn/public/broadcasting/auth',
   auth: {
     headers: {
       Authorization: `Bearer ${Cookies.get('token_user_edu')}`

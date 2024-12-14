@@ -46,14 +46,14 @@
                 </el-checkbox-group>
             </div>
             <!-- Video Duration (Checkboxes) -->
-            <div class="font-medium text-lg">
+            <!-- <div class="font-medium text-lg">
                 <h3 class="font-semibold text-lg mb-2">Thời gian khóa học</h3>
                 <el-checkbox-group v-model="selectedDurations" class="flex flex-col items-start" @change="applyFilters">
                     <el-checkbox :value="'0-48'">0-48 giờ</el-checkbox>
                     <el-checkbox :value="'0-128'">48-128 giờ</el-checkbox>
                     <el-checkbox :value="'128+'">128+ giờ</el-checkbox>
                 </el-checkbox-group>
-            </div>
+            </div> -->
             <!-- Level (Checkboxes) -->
             <div class="font-medium text-lg">
                 <h3 class="font-semibold text-lg mb-2">Trình độ</h3>

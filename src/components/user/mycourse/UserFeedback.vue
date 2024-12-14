@@ -2,79 +2,37 @@
     <div class="mx-20 my-5">
         <h3 class="text-xl font-bold">Đánh giá học viên</h3>
         <!-- Fillter rate -->
-        <div class="flex gap-5 items-center mt-5">
-            <div class="flex  flex-col items-center gap-1">
-                <h3 class="text-6xl font-bold text-yellow-400 ">4.7</h3>
-                <div class="flex items-center">
-                    <StarIconSolid class="h-5 w-5 text-yellow-400" />
-                    <StarIconSolid class="h-5 w-5 text-yellow-400" />
-                    <StarIconSolid class="h-5 w-5 text-yellow-400" />
-                    <StarIconSolid class="h-5 w-5 text-yellow-400" />
-                    <StarIconSolid class="h-5 w-5 text-yellow-400" />
-                </div>
-                <span class="font-medium text-lg">Đánh giá khóa học</span>
-            </div>
-            <!-- <StarIconSolid class="text-yellow-400" /> -->
-            <div class="flex">
-                <ul>
-                    <li class="flex cursor-pointer gap-1 items-center">
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <span class="text-indigo-600">75%</span>
-                        <button>
-                            <XMarkIcon class="h-4 w-4" />
-                        </button>
-                    </li>
-                    <li class="flex cursor-pointer gap-1 items-center">
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconOutline class="w-4 h-4 text-yellow-400" />
-                        <span class="text-indigo-600">60%</span>
-                    </li>
-                    <li class="flex cursor-pointer gap-1 items-center">
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconOutline class="w-4 h-4 text-yellow-400" />
+        <div class="mt-5 flex items-center gap-2">
+            <!-- Filter by Keyword -->
+            <input type="text" v-model="filterKeyword" placeholder="Tìm kiếm đánh giá..."
+                class="border rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 w-1/2" />
 
-                        <StarIconOutline class="w-4 h-4 text-yellow-400" />
+            <!-- Filter by Rating -->
+            <select v-model="filterRating" class="border rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 w-1/4">
+                <option value="">Tất cả</option>
+                <option v-for="rating in [5, 4, 3, 2, 1]" :key="rating" :value="rating">
+                    {{ rating }} sao
+                </option>
+            </select>
 
-                        <span class="text-indigo-600">50%</span>
-                    </li>
-                    <li class="flex cursor-pointer gap-1 items-center">
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconSolid class="w-4 h-4 text-yellow-400" />
-                        <StarIconOutline class="w-4 h-4 text-yellow-400" />
-
-                        <StarIconOutline class="w-4 h-4 text-yellow-400" />
-
-                        <StarIconOutline class="w-4 h-4 text-yellow-400" />
-                        <span class="text-indigo-600">40%</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- SEARCH -->
-        <div class="mt-5 flex items-center border-gray-900 border w-2/3 justify-between p-1">
-            <input type="text" class="focus-visible:outline-none w-2/3">
-            <button class="px-2">
-                <MagnifyingGlassIcon class="h-5 w-5" />
+            <!-- Apply Filter -->
+            <button class="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600" @click="applyFilter">
+                Lọc
             </button>
         </div>
+
+
         <!-- COMMENT -->
         <div class="mt-5">
             <div class="flex flex-col gap-5">
 
                 <div v-for="(review, index) in listReview" :key="index">
-                    <CardCourseComment :rate="review.rating" :name="review.user.last_name" :content="review.comment"
-                        :image="review.user.avatar" :created_at="review.created_at" />
+                    <CardCourseComment :course_id="review.course_id || 0" :id="review.id || 0"
+                        :rate="review.rating || 0" :name="review.user?.last_name || 'Ẩn danh'"
+                        :content="review.comment || ''" :image="review.user?.avatar || ''"
+                        :created_at="review.created_at || ''" />
 
-                    <!-- <h2>{{ review.comment }}</h2> -->
+
                 </div>
             </div>
             <div class="flex items-center justify-center mt-5">
@@ -110,6 +68,7 @@ import { MagnifyingGlassIcon, StarIcon as StarIconSolid, XMarkIcon } from '@hero
 import { StarIcon as StarIconOutline } from '@heroicons/vue/24/outline';
 import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
+
 export interface TReview {
     id: number
     course_id: number
@@ -129,7 +88,7 @@ const props = defineProps<{
 }>();
 const reviewsStore = useReviewsStore()
 const form = ref({
-    course_id: props.idCourse, // Replace with dynamic course ID
+    course_id: props.idCourse,
     rating: 0,
     comment: '',
 })
@@ -143,8 +102,22 @@ const submitReview = async () => {
 
 }
 
+const filterKeyword = ref(''); // Từ khóa filter
+const filterRating = ref<number | ''>(''); // Rating filter
 const resetForm = () => {
     form.value.rating = 0;
     form.value.comment = '';
+};
+const applyFilter = async () => {
+    if (!filterKeyword.value.trim() && !filterRating.value) {
+        ElMessage.warning('Vui lòng nhập từ khóa hoặc chọn số sao để lọc');
+        return;
+    }
+
+    // Gọi API với tham số comment và rating
+    await reviewsStore.filterReview(props.idCourse, {
+        comment: filterKeyword.value,
+        rating: filterRating.value,
+    });
 };
 </script>

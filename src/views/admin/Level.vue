@@ -25,8 +25,13 @@
             <el-table-column class="" prop="status" label="Trạng thái" />
             <el-table-column label="Hành động">
                 <template #default="{ row }">
-                    <el-button @click="openUpdateDrawer(row)">Sửa</el-button>
-                    <el-button @click="handleDelete(row.id)">Xóa</el-button>
+
+                    <div class="flex gap-2">
+
+                        <PencilSquareIcon class="cursor-pointer h-5 w-5 text-blue-500" @click="openUpdateDrawer(row)" />
+
+                        <TrashIcon class="cursor-pointer h-5 w-5 text-red-500" @click="handleDelete(row.id)" />
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -83,7 +88,7 @@
 
 <script setup lang="ts">
 import { useCourseLevel } from '@/composables/admin/useCourseLevel';
-import { ArrowPathIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { ArrowPathIcon, PencilSquareIcon, PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { onMounted, reactive } from 'vue';
 
 

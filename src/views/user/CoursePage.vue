@@ -49,7 +49,8 @@
                         Giúp bạn có thêm cơ hội nghề nghiệp với Thiết kế đồ họa
                     </h3>
                 </div>
-                <div class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
+                <div v-loading="loadingFilterSection" element-loading-text="Đang tải..."
+                    class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
                     <CardCourse v-for="course in coursesFilterSection" :key="course.id" :id="course.id"
                         :title="course.title"
                         :thumbnail="course.thumbnail || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
@@ -105,7 +106,8 @@
                 <div v-else class="">
                     <h3 class="text-lg">Hiển thị <span class="font-medium">{{ totalCourses }} khóa học </span>
                     </h3>
-                    <div class="grid w-full xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-2  gap-5 mt-5">
+                    <div v-loading="loadingCourses" element-loading-text="Đang tải..."
+                        class="grid w-full xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-2  gap-5 mt-5">
                         <CardCourse v-for="course in coursesFilter" :key="course.id" :id="course.id"
                             :title="course.title"
                             :thumbnail="course.thumbnail || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
@@ -136,14 +138,16 @@
 <script setup lang="ts">
 import CardCourse from '@/components/ui/card/CardCourse.vue';
 import UserCourseFilter from '@/components/user/UserCourseFilter.vue';
-import UserHero2 from '@/components/user/UserHero2.vue';
 import UserNewsLetter from '@/components/user/UserNewsLetter.vue';
-import { UsersIcon, FunnelIcon } from "@heroicons/vue/24/outline";
-import { onMounted, ref } from 'vue';
-const fillter = ref(false)
 import { useFilter } from '@/composables/user/useFilter';
 import { useShop } from '@/composables/user/useShop';
-// const { fetchCate } = useHome()
+import { FunnelIcon, UsersIcon } from "@heroicons/vue/24/outline";
+import { onMounted, ref } from 'vue';
+const fillter = ref(false)
+const loadingFilterSection = ref(false);
+const loadingCourses = ref(false);
+
+
 const { coursesFilterSection, activeFilter, fetchCoursesSection, changeFilter } = useShop()
 const { fetchCourseFilter, coursesFilter, noProduct, lastPage, totalCourses, currentPage, paginationLinks, perPageData } = useFilter();
 const pageSize = 99999;
@@ -151,13 +155,24 @@ const handlePageChange = (newPage: number) => {
     currentPage.value = newPage;
     fetchCourseFilter(currentPage.value, pageSize, perPageData.value, {}); // Truyền filters nếu có
 };
-onMounted(() => {
-    fetchCoursesSection(activeFilter.value)
-    fetchCourseFilter(currentPage.value, pageSize, perPageData.value, {}); // Truyền filters nếu có
+
+onMounted(async () => {
+    loadingFilterSection.value = true;
+    try {
+        await fetchCoursesSection(activeFilter.value)
+        await fetchCourseFilter(currentPage.value, pageSize, perPageData.value, {}); // Truyền filters nếu có
+    } finally {
+        loadingFilterSection.value = false;
+    }
 });
 
-const handleUpdateFilters = (filters: any) => {
-    fetchCourseFilter(currentPage.value, pageSize, perPageData.value, filters);
+const handleUpdateFilters = async (filters: any) => {
+    loadingCourses.value = true;
+    try {
+        await fetchCourseFilter(currentPage.value, pageSize, perPageData.value, filters);
+    } finally {
+        loadingCourses.value = false;
+    }
 };
 
 </script>

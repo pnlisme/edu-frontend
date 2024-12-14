@@ -178,7 +178,6 @@ const filteredUsers = computed(() => {
 // Chọn người dùng để chat
 const selectUser = async (userItem: any) => {
     selectedUser.value = userItem;
-    // console.log(`Selected user: ${userItem.id}`); // Kiểm tra ID người nhận
     await fetchUsers();
     await fetchMessages(userItem.id);
     latest_message.value = '';
@@ -221,7 +220,6 @@ const setupBroadcasting = () => {
 const fetchMessages = async (receiverId: number) => {
     try {
         const response = await api.get(`/auth/message/private/${receiverId}`);
-        console.log(response.data)
         messages.value = response.data.data;
         scrollToBottom();
     } catch (error) {
@@ -312,7 +310,6 @@ const getWaitingUser = async () => {
 
 // Khởi tạo
 onMounted(async () => {
-    console.log('start listen');
 
     setupBroadcasting();
 
@@ -336,10 +333,14 @@ onMounted(async () => {
 //     channel.value.unLIO
 // })
 onUnmounted(() => {
-    if (channel.value) {
-        channel.value.unListen('.MessageSent');
-        echo.leave(`chat.${authStore.state.user?.id}`);
-    }
+    // if (channel.value) {
+    //     channel.value.unListen('.MessageSent');
+    //     echo.leave(`chat.${authStore.state.user?.id}`);
+    // }
+    // channel.value = null;
+    // messages.value = [];
+    // selectedUser.value = null;
+    // console.log('hello')
 });
 // Xử lý upload hình ảnh ngay khi chọn
 const handleImageUpload = async () => {

@@ -44,7 +44,7 @@
                         class="bg-indigo-500 hover:bg-indigo-600 hover:transition-all transition-all hover:duration-300 duration-300 p-2 rounded-full">
                         <ShoppingCartIcon class="h-5 w-5  text-white" />
                     </button>
-                    <button @click="toggleWishlist(id)"
+                    <button v-if="state.token" @click="toggleWishlist(id)"
                         class="bg-indigo-500 hover:bg-indigo-600 hover:transition-all transition-all hover:duration-300 duration-300 p-2 rounded-full">
 
                         <HeartIconSolid v-if="isInWishlist(id)" class="h-5 w-5  text-white" />
@@ -59,17 +59,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, ref } from 'vue';
 import { formatPrice } from '@/utils/formatPrice';
-import { ClockIcon, BookOpenIcon, RocketLaunchIcon, HeartIcon, ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/vue/20/solid";
+import { BookOpenIcon, HeartIcon, RocketLaunchIcon, ShoppingCartIcon } from "@heroicons/vue/24/outline";
+import { defineProps } from 'vue';
 
-import type { TCardCourse } from '@/interfaces/course.interface';
 import { useCart } from '@/composables/user/useCart';
-import { useRouter } from 'vue-router';
+import type { TCardCourse } from '@/interfaces/course.interface';
+import { useAuthStore } from '@/store/auth';
 import { useWishlistStore } from '@/store/wishlist';
-import { storeToRefs } from 'pinia';
 import { ElNotification } from 'element-plus';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+const useAuth = useAuthStore()
+const { state } = storeToRefs(useAuth)
 defineProps<TCardCourse>();
 // const { navigateToDetail } = useCourseDetail()
 const router = useRouter();

@@ -47,8 +47,12 @@
             </el-table-column>
             <el-table-column label="Hành động">
                 <template #default="{ row }">
-                    <el-button @click="openUpdateDrawer(row)">Sửa</el-button>
-                    <el-button type="danger" @click="handleDelete(row.id)">Xóa mềm</el-button>
+                    <div class="flex gap-2">
+
+                        <PencilSquareIcon class="cursor-pointer h-5 w-5 text-blue-500" @click="openUpdateDrawer(row)" />
+
+                        <TrashIcon class="cursor-pointer h-5 w-5 text-red-500" @click="handleDelete(row.id)" />
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -144,6 +148,7 @@
 import { useUser } from '@/composables/admin/useUser';
 import { useAuthStore } from '@/store/auth';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/vue/20/solid';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import { storeToRefs } from 'pinia';
 import { reactive, onMounted, watch } from 'vue';
 

@@ -13,7 +13,7 @@ const user = [
       },
       {
         path: '/course',
-        name: 'user.course',
+        name: 'Course',
         component: () => import('@/views/user/CoursePage.vue')
       },
       {

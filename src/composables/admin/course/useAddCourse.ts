@@ -1,5 +1,6 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import api from '@/services/axiosConfig'
 // import { myToken } from '@/interfaces/token';
 
 export default function useAddCourse() {
@@ -30,7 +31,7 @@ export default function useAddCourse() {
     // axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.value}`
     try {
       loading.value = true
-      const response = await axios.get('https://toannt.id.vn/public/api/auth/course-levels')
+      const response = await api.get('/auth/course-levels')
       if (response.data.status === 'OK') {
         courseLevels.value = response.data.data.data // Array of levels
         console.log('Level log:', response.data.data.data)
@@ -49,7 +50,7 @@ export default function useAddCourse() {
     // axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.value}`;
     try {
       loading.value = true
-      const response = await axios.get('https://toannt.id.vn/public/api/auth/languages')
+      const response = await api.get('/auth/languages')
       if (response.data.status === 'OK') {
         languages.value = response.data.data.data // Array of languages
         console.log('lang log:', response.data.data.data)
@@ -87,7 +88,7 @@ export default function useAddCourse() {
         formData.append('thumbnail', formDataAddCourse.value.thumbnail)
       }
 
-      const response = await axios.post('https://toannt.id.vn/public/api/auth/courses', formData, {
+      const response = await api.post('/auth/courses', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

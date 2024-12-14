@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
 import api from '@/services/axiosConfig'
+import { ElMessage } from 'element-plus'
 
 interface TchartDataTotal {
   date: string
@@ -16,9 +17,20 @@ interface TchartDataOrder {
   period: string
   orders: number
 }
+interface TListAuthPayout {
+  id: number
+  user_id: number
+  amount: number
+  currency: string
+  status: 'peding' | 'paid'
+  reason: string
+  created_at: string
+  updated_at: string
+}
 
 export const useReportStore = defineStore('report', () => {
   const total_revenue = ref<number>(0)
+  const total_sales = ref<number>(0)
   const total_payouts = ref<number>(0)
   const net_revenue = ref<number>(0)
   const total_users = ref<number>(0)
@@ -32,6 +44,7 @@ export const useReportStore = defineStore('report', () => {
   const chartDataTotalTeacher = ref<TchartDataTotal[]>([])
   const chartDataUser = ref<TchartDataUserOrder[]>([])
   const chartDataOrder = ref<TchartDataOrder[]>([])
+  const listAuthPayout = ref<TListAuthPayout[]>([])
 
   const total_students = ref<number>(0)
   const fetchReport = async () => {
@@ -87,6 +100,10 @@ export const useReportStore = defineStore('report', () => {
         }
       })
       chartDataTotal.value = res.data.data || []
+      total_revenue.value = res.data.total_revenue
+      total_sales.value = res.data.total_sales
+
+      chartDataTotalTeacher.value = res.data.data
     } catch (error) {
       console.error('Error fetching line chart:', error)
     }
@@ -119,7 +136,44 @@ export const useReportStore = defineStore('report', () => {
       console.error('Error fetching line chart:', error)
     }
   }
+
+  const fetchRequestPayment = async (params: any = {}) => {
+    try {
+      const res = await api.get('/auth/admin', { params })
+      listAuthPayout.value = res.data.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const payoutProcess = async (id: number, data: any) => {
+    try {
+      const res = await api.post(`/auth/payout/process/${id}`, data)
+      if (res.data.status === 'SUCCESS') {
+        window.location.href = res.data.data.transaction_link
+      } else {
+        ElMessage.error('Thanh toán thất bại. Vui lòng thử lại.')
+      }
+    } catch (error) {
+      ElMessage.error('Thanh toán thất bại. Vui lòng thử lại.')
+      // console.log(error)
+    }
+  }
+  const payoutRejected = async (id: number, data: any) => {
+    try {
+      const res = await api.post(`/auth/payout/rejected/${id}`, data)
+      if (res.data.status === 'SUCCESS') {
+        ElMessage.success('Xóa thanh toán thành công')
+      } else {
+        ElMessage.error('Xóa thanh toán thất bại. Vui lòng thử lại.')
+      }
+    } catch (error) {
+      ElMessage.error('Xóa thanh toán thất bại. Vui lòng thử lại.')
+      // console.log(error)
+    }
+  }
   return {
+    total_sales,
+    listAuthPayout,
     total_revenue,
     total_payouts,
     net_revenue,
@@ -140,6 +194,9 @@ export const useReportStore = defineStore('report', () => {
     fetchLineChartUser,
     fetchLineChartOrder,
     fetchReportTeacher,
-    fetchLineChartTotalTeacher
+    fetchLineChartTotalTeacher,
+    fetchRequestPayment,
+    payoutProcess,
+    payoutRejected
   }
 })

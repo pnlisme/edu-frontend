@@ -18,10 +18,10 @@
                 <span class="text-lg font-medium text-indigo-600">Thể loại</span>
                 <h3 class="text-3xl font-medium">Khám phá các khóa học hàng đầu</h3>
             </div>
-            <div class="grid  md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+            <div v-loading="loadingCategories" class="grid  md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
                 <CardCategory v-for="category in apiStore.categories" :key="category.id" :name="category.name"
                     :image="category.image || 'https://demo.creativeitem.com/academy-laravel/public/uploads/category-logo/web-development-logo-1718273508.png'"
-                    :courses_count="category.id" />
+                    :courses_count="category.courses_count" />
 
             </div>
         </section>
@@ -72,7 +72,7 @@
                     </h3>
                 </div>
 
-                <div class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
+                <div v-loading="loadingPopular" class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
 
                     <CardCourse v-for="course in apiStore.coursesPopular" :key="course.id" :id="course.id"
                         :title="course.title"
@@ -88,8 +88,20 @@
                 <h3 class="mt-5 font-semibold text-2xl">
                     Khóa học hàng đầu
                 </h3>
-                <div class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
+                <div v-loading="loadingRate" class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
                     <CardCourse v-for="course in apiStore.coursesRate" :key="course.id" :id="course.id"
+                        :title="course.title"
+                        :thumbnail="course.thumbnail || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
+                        :creator="course.creator" :tag="course.tag" :lectures_count="course.lectures_count"
+                        :level="course.level" :current_price="course.current_price" :old_price="course.old_price" />
+                </div>
+            </div>
+            <div class="mt-16">
+                <h3 class="mt-5 font-semibold text-2xl">
+                    Khóa học mới
+                </h3>
+                <div v-loading="loadingNew" class="mt-5 gap-5 grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
+                    <CardCourse v-for="course in apiStore.coursesNew" :key="course.id" :id="course.id"
                         :title="course.title"
                         :thumbnail="course.thumbnail || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'"
                         :creator="course.creator" :tag="course.tag" :lectures_count="course.lectures_count"
@@ -105,7 +117,10 @@
     <div class="my-16">
         <UserNewsLetter />
     </div>
+    <div class="">
 
+        <ChatWidget />
+    </div>
 
 
 </template>
@@ -124,6 +139,10 @@ import { onMounted, ref } from 'vue';
 import { apisStore } from '@/store/apis';
 import api from '@/services/axiosConfig';
 import { ElNotification } from 'element-plus';
+import Certificate from '@/components/user/Certificate.vue';
+// import Chatbot from '@/components/user/Chatbot.vue';
+import ChatWidget from '@/components/user/ChatWidget.vue';
+import { storeToRefs } from 'pinia';
 const { locale } = useI18n();
 // const changeLanguage = (event: Event) => {
 //     const selectedLanguage = (event.target as HTMLSelectElement).value;
@@ -137,16 +156,34 @@ const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter()
 const apiStore = apisStore()
+const { loading } = storeToRefs(apiStore)
 const session_id = ref<string | undefined>('')
 const status = ref<'success' | 'error'>('error');
 const message = ref('');
-const loading = ref(true);
-
+const loadingCategories = ref(false);
+const loadingPopular = ref(false);
+const loadingRate = ref(false);
+const loadingNew = ref(false);
 onMounted(async () => {
-    apiStore.fetchCate()
-    apiStore.fetchCourse()
-    apiStore.fetchPopularCourse()
-    apiStore.fetchRateCourse()
+    loadingCategories.value = true;
+    loadingPopular.value = true;
+    loadingRate.value = true;
+    loadingNew.value = true;
+    try {
+        // Fetch dữ liệu từng phần
+        await apiStore.fetchCate();
+        await apiStore.fetchPopularCourse();
+        await apiStore.fetchRateCourse();
+        await apiStore.fetchNewCourse();
+    } catch (error) {
+        console.error('Error while fetching data:', error);
+    } finally {
+        // Tắt loading từng phần
+        loadingCategories.value = false;
+        loadingPopular.value = false;
+        loadingRate.value = false;
+        loadingNew.value = false;
+    }
 
     const sessionId = route.query.session_id as string | undefined;
     session_id.value = sessionId

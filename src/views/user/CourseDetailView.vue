@@ -26,22 +26,22 @@
                 </div>
                 <el-tabs v-model="activeTab" class="mt-5">
                     <el-tab-pane label="Mô tả" name="description">
-                        <UserCourseDescribe :contents="course.course_contents" />
+                        <UserCourseDescribe :contents="course.course_contents || ''" />
                     </el-tab-pane>
                     <el-tab-pane label="Khóa học" name="course">
-                        <UserCourseOption :contents="course.course_contents" />
+                        <UserCourseOption :contents="course.course_contents || ''" />
                     </el-tab-pane>
                     <el-tab-pane label="Đánh giá" name="reviews">
-                        <UserCourseReview :reviews="course.reviews.review_list"
+                        <UserCourseReview :id="course.id" :reviews="course.reviews.review_list"
                             :totalReviews="course.reviews.total_reviews" :averageRating="course.reviews.average_rating"
-                            :ratingPercentages="course.reviews.rating_percentages" />
+                            :ratingPercentages="course.reviews.rating_percentages"
+                            :created_at="course.reviews.created_at" />
                     </el-tab-pane>
                     <el-tab-pane label="Giảng viên" name="lecturer">
                         <UserCourseLecturer :rate="course.instructor.average_rating"
                             :review="course.instructor.total_reviews" :students="course.instructor.students_count"
-                            :course="course.instructor.courses_count"
-                            :name="course.instructor.info.first_name + ' ' + course.instructor.info.last_name"
-                            :job="'Giảng viên'" :image="course.instructor.info.avatar"
+                            :course="course.instructor.courses_count" :name="course.creator" :job="'Giảng viên'"
+                            :image="course.instructor.info.avatar"
                             :introduce="course.instructor.info.biography || 'Chưa có mô tả'" />
                     </el-tab-pane>
                 </el-tabs>
@@ -65,7 +65,7 @@
                             <div class="text-2xl font-bold">{{ formatPrice(course.current_price) }}</div>
                             <del v-if="course.old_price" class="text-lg text-gray-400">{{
                                 formatPrice(course.old_price)
-                            }}</del>
+                                }}</del>
                         </div>
                         <div class="w-1/3">
 
@@ -111,7 +111,7 @@
             <h3 class="text-white text-xl font-medium">{{ course.title }}</h3>
         </div>
         <div class="mt-5 flex flex-col gap-5">
-            <div class="rounded-lg overflow-hidden">
+            <div class="rounded-lg overflow-hidden  h-[400px]">
                 <vue-plyr>
                     <video ref="videoElement">
                         <source :src="currentVideoLink" type="video/mp4" />
@@ -159,7 +159,6 @@ import CardCourse from '@/components/ui/card/CardCourse.vue';
 import { useCart } from '@/composables/user/useCart';
 import VideoCourse from '@/components/ui/video/VideoCourse.vue';
 import VideoFreeItem from '@/components/ui/video/VideoFreeItem.vue';
-
 const activeTab = ref('description');
 const outerVisible = ref(false);
 const route = useRoute();

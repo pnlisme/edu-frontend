@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatPrice } from '@/utils/formatPrice';
 import { computed, ref } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 
@@ -8,8 +9,9 @@ interface Ttotal {
     total_sales: number
 }
 const props = defineProps<{
-    data: Ttotal[]
+    data: Ttotal[], total_revenue: number, total_sales: number
 }>();
+console.log(props.data)
 const categories = computed(() => props.data.map((item: any) => item.period));
 const series = computed(() => [
     {
@@ -114,7 +116,13 @@ const apexOptions = ref({
 
 <template>
     <div class="p-5 bg-white rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-4 text-gray-800">Thống kê thanh toán</h2>
+        <div class="flex justify-between ">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Thống kê thanh toán</h2>
+            <h3 class="text-sm font-medium ">
+                Số lượng khóa học đã bán: {{ total_sales }} <br>
+                Tổng doanh thu: {{ formatPrice(total_revenue) }}
+            </h3>
+        </div>
         <div id="chartOne" class="-ml-5">
             <VueApexCharts type="area" height="350" :options="apexOptions" :series="series" />
         </div>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import api from '@/services/axiosConfig'
-import { ElMessage, ElNotification } from 'element-plus'
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 import type { TCategory, TUpdateCate } from '@/interfaces'
 
 export const useCategoryStore = defineStore('category', () => {
@@ -86,6 +86,11 @@ export const useCategoryStore = defineStore('category', () => {
   // Xóa mềm danh mục
   const deleteCategory = async (id: string | number) => {
     try {
+      await ElMessageBox.confirm('Bạn có chắc chắn muốn xóa danh mục này không?', 'Xác nhận xóa', {
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+        type: 'info'
+      })
       await api.delete(`/auth/categories/${id}`)
       ElMessage({
         type: 'success',

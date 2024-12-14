@@ -26,10 +26,11 @@
       <div>
         <ChartUser :data="chartDataUser" />
       </div>
-      <div>
-        <ChartTotal :data="chartDataTotal" />
-      </div>
     </div>
+    <div>
+      <ChartTotal :data="chartDataTotal" />
+    </div>
+
   </div>
 </template>
 <script setup lang="ts">

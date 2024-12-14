@@ -7,6 +7,8 @@ import { useAuthStore } from '@/store/auth'
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 import { ElNotification } from 'element-plus'
+
+const historyStack: string[] = []
 const routes = [
   ...user,
   ...teacher,
@@ -29,6 +31,15 @@ router.beforeEach(async (to, from, next) => {
   await authStore.userData()
   const isAuthenticated = state.value.token
   const userRole = state.value.user?.role
+  // Quản lý lịch sử route
+  if (from.fullPath && !historyStack.includes(from.fullPath)) {
+    historyStack.push(from.fullPath) // Thêm vào lịch sử
+  }
+
+  // Giới hạn độ dài lịch sử (tối đa 20 URL)
+  if (historyStack.length > 20) {
+    historyStack.shift() // Xóa URL cũ nhất
+  }
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
     ElNotification({
@@ -75,3 +86,4 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 export default router
+export { historyStack }

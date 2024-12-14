@@ -65,14 +65,14 @@ import { useCartStore } from '@/store/cart';
 import { onMounted, ref } from 'vue';
 
 // Type-only imports
+import UserVoucher from '@/components/user/UserVoucher.vue';
 import api from '@/services/axiosConfig';
 import { useAuthStore } from '@/store/auth';
-import { ElNotification } from 'element-plus';
-import { useRouter } from 'vue-router';
-import { formatPrice } from '@/utils/formatPrice';
-import UserVoucher from '@/components/user/UserVoucher.vue';
 import { useVoucherStore } from '@/store/voucher';
+import { formatPrice } from '@/utils/formatPrice';
+import { ElNotification } from 'element-plus';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 const cartStore = useCartStore()
 
 const { cart, formattedTotalPrice, formattedTotalPriceOld, clearCart } = useCart();
@@ -90,7 +90,6 @@ const { state, userData } = authStore
 const voucherStore = useVoucherStore()
 const { voucher } = storeToRefs(voucherStore)
 onMounted(async () => {
-    await cartStore.fetchCartCourses();
     await userData()
     token.value = state.token
 });

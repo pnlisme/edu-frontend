@@ -63,7 +63,7 @@
             Tải lên hình ảnh
           </label>
           <el-upload list-type="picture-card" :auto-upload="false" :file-list="fileList" :on-change="handleFileChange"
-            :on-remove="handleRemoveImage" accept="image/*" :limit="1">
+            :on-remove="handleRemoveImage" :before-upload="handleFileChange" accept="image/*" :limit="1">
             <el-icon>
               <Plus />
             </el-icon>

@@ -6,7 +6,7 @@
         <WindowIcon class="w-6 h-6 dark:hover:text-gray-200 text-gray-400"
           @click.prevent="sidebarStore.toggleSidebar" />
         <div class="">
-          <span class="font-semibold text-xl block dark:text-white">Admin Panel</span>
+          <span class="font-semibold text-xl block dark:text-white">Trang quản trị</span>
           <router-link target="_blank" to="/"
             class="flex gap-2 items-center text-xs text-gray-400 hover:text-black hover:underline dark:hover:text-gray-200">
             Xem trang web

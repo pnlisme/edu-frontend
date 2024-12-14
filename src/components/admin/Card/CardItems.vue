@@ -38,7 +38,7 @@ watchEffect(() => {
     },
     {
       icon: revenue,
-      title: "Doanh thu ròng",
+      title: "Doanh lợi nhuận",
       total: `${formatPrice(props.net_revenue)}`,
     },
     {
@@ -57,7 +57,7 @@ watchEffect(() => {
       total: `${props.total_categories} danh mục`,
     },
     {
-      icon: course,
+      icon: cart,
       title: "Tổng số yêu cầu thanh toán",
       total: `${props.total_payout_requests} yêu cầu`,
     },

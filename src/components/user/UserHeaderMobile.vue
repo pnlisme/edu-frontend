@@ -2,7 +2,7 @@
     <div class="block xl:hidden">
         <div
             class="z-50 fixed bottom-0 shadow-indigo-600 drop-shadow-2xl w-full bg-white p-4 flex justify-between items-center">
-            <div class="container-user flex gap-3 items-center justify-between">
+            <div class="container mx-auto flex gap-3 items-center justify-between">
 
                 <!-- Home Link -->
                 <RouterLink to="/" exact v-slot="{ isActive }">

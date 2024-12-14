@@ -13,7 +13,6 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
-
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^43.2.0",
     "@ckeditor/ckeditor5-vue": "^7.2.0",
@@ -26,18 +25,23 @@
     "@heroicons/vue": "^2.1.5",
     "@stripe/stripe-js": "^4.9.0",
     "@vueuse/core": "^11.1.0",
+    "@vueuse/motion": "^2.2.6",
     "apexcharts": "^3.54.1",
     "axios": "^1.7.7",
     "canvas-confetti": "^1.9.3",
     "dayjs": "^1.11.13",
     "element-plus": "^2.8.2",
+    "framer-motion": "^11.13.1",
     "js-cookie": "^3.0.5",
-    "pdfjs-dist": "^4.8.69",
+    "laravel-echo": "^1.16.1",
+    "motion": "^11.13.1",
+    "pdfjs-dist": "^2.16.105",
     "pinia": "^2.2.2",
-"laravel-echo": "^1.16.1",
-  "pusher-js": "8.4.0-rc2",
+    "print-js": "^1.6.0",
+    "pusher-js": "8.4.0-rc2",
     "video.js": "^8.17.4",
     "vue": "^3.4.29",
+    "vue-draggable-next": "^2.2.1",
     "vue-i18n": "^10.0.1",
     "vue-loading-overlay": "^6.0.6",
     "vue-pdf": "^4.3.0",
@@ -47,7 +51,8 @@
     "vue-video-player": "^6.0.0",
     "vue3-apexcharts": "^1.7.0",
     "vue3-datepicker": "^0.4.0",
-    "vue3-pdf-app": "^1.0.3"
+    "vue3-pdf-app": "^1.0.3",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

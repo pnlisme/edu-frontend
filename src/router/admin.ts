@@ -19,6 +19,11 @@ import Language from '@/views/admin/Language.vue'
 import User from '@/views/admin/User.vue'
 import Security from '@/views/user/Security.vue'
 import MyProfile from '@/views/user/MyProfile.vue'
+import Payment from '@/views/admin/Payment.vue'
+import Review from '@/views/admin/Review.vue'
+import ProcessRequest from '@/views/ProcessRequest.vue'
+import CourseAdminListPage from '@/views/teacher/CourseAdminListPage.vue'
+import Banner from '@/views/admin/Banner.vue'
 const admin = [
   {
     path: '/admin',
@@ -59,7 +64,7 @@ const admin = [
       {
         path: '/admin/course/manager-course',
         name: 'admin.manager-course',
-        component: ManagerCourse,
+        component: CourseAdminListPage,
         meta: { requiresAuth: true, role: 'admin', title: 'Quản lý khoá học | Edunity' }
       },
       {
@@ -166,11 +171,35 @@ const admin = [
       },
       {
         path: '/admin/profile-setting',
-        name: 'admin.user',
+        name: 'admin.profile-setting',
         component: MyProfile,
         meta: { requiresAuth: true, role: 'admin', title: 'Chỉnh sửa thông tin | Edunity' }
+      },
+      {
+        path: '/admin/payment',
+        name: 'admin.payment',
+        component: Payment,
+        meta: { requiresAuth: true, role: 'admin', title: 'Thanh toán | Edunity' }
+      },
+      {
+        path: '/admin/user-review',
+        name: 'admin.user-review',
+        component: Review,
+        meta: { requiresAuth: true, role: 'admin', title: 'Đánh giá người dùng| Edunity' }
+      },
+      {
+        path: '/admin/banner',
+        name: 'admin.banner',
+        component: Banner,
+        meta: { requiresAuth: true, role: 'admin', title: 'Quản lý banner| Edunity' }
       }
     ]
+  },
+  {
+    path: '/payout/process-request/:status',
+    name: 'admin.process-request',
+    component: ProcessRequest,
+    meta: { requiresAuth: true, role: 'admin', title: 'Đánh giá người dùng| Edunity' }
   }
 ]
 export default admin

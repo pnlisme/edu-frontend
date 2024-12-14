@@ -9,7 +9,10 @@ export function useCart() {
   const isAuthenticated = ref(!!Cookies.get('token_user_edu'))
   watchEffect(() => {
     isAuthenticated.value = !!Cookies.get('token_user_edu')
-
+    if (isAuthenticated.value) {
+      // Gọi hàm handleLogin khi người dùng đăng nhập
+      cartStore.handleLogin()
+    }
     // if (isAuthenticated.value) {
     //   cartStore.handleLogin()
     // } else {

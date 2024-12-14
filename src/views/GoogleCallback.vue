@@ -5,11 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
 import { useAuthStore } from '@/store/auth';
-import { useRoute, useRouter } from 'vue-router';
-import { ElNotification } from 'element-plus';
+import { onMounted, ref } from 'vue';
 import Loading from 'vue-loading-overlay';
+import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
@@ -30,7 +29,8 @@ onMounted(async () => {
         if (success) {
 
             // If login is successful, redirect to home
-            router.push('/');
+            await router.push('/');
+            location.reload();
         } else {
             // If there's an error, redirect to login page
             router.push('/login');
@@ -40,5 +40,6 @@ onMounted(async () => {
         router.push('/login');
     }
     loading.value = false;
+
 });
 </script>

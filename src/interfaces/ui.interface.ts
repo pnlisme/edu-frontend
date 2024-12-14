@@ -62,9 +62,11 @@ export interface CourseContentItem {
   content: string
 }
 export interface CourseComment {
+  id: number
   image?: string
   name: string
   created_at: string
+  course_id: number
   rate: number | string
   content: string
 }

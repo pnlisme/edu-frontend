@@ -17,9 +17,10 @@
             <!-- Apply Button -->
             <el-button type="primary" @click="applyFilters" class="md:w-1/5">Áp dụng bộ lọc</el-button>
         </div>
-        <div class="grid grid-cols-2 gap-3 items-center">
+        <div class="grid  gap-3 items-center">
             <div>
-                <ChartTeacher :data="chartDataTotalTeacher" />
+
+                <ChartTeacher :total_sales="total_sales" :total_revenue="total_revenue" :data="chartDataTotalTeacher" />
             </div>
 
         </div>
@@ -29,6 +30,7 @@
 import CardItemsTeacher from '@/components/admin/Card/CardItemsTeacher.vue';
 import ChartTeacher from '@/components/admin/Chart/ChartTeacher.vue';
 import { useReportStore } from '@/store/report';
+import { formatPrice } from '@/utils/formatPrice';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
 
@@ -36,6 +38,7 @@ const reportStore = useReportStore();
 const { total_courses,
     total_categories,
     total_revenue,
+    total_sales,
     total_students, chartDataTotalTeacher } = storeToRefs(reportStore)
 const { fetchReportTeacher,
     fetchLineChartTotalTeacher,

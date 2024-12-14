@@ -6,7 +6,8 @@
         <el-tooltip class="box-item" :effect="darkModeStore.darkMode ? 'light' : 'dark'"
           :content="props.category.status === 'active' ? 'Dừng kích hoạt' : 'Kích hoạt'" placement="top-start">
           <label class="inline-flex items-center cursor-pointer absolute p-3 top-0 right-0">
-            <input type="checkbox" :checked="isActive" class="sr-only peer">
+            <input @change="() => toggleCategoryStatus(props.category.id, props.category.status)" type="checkbox"
+              :checked="isActive" class="sr-only peer">
             <div
               class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
             </div>
@@ -159,6 +160,9 @@ import { useDarkModeStore } from '@/store/darkmode';
 import * as solidIcons from '@fortawesome/free-solid-svg-icons';
 import { useCategory } from '@/composables/admin/useCategory';
 import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import api from '@/services/axiosConfig';
+import { useCategoryStore } from '@/store/category';
 
 const darkModeStore = useDarkModeStore()
 const props = defineProps<{
@@ -199,4 +203,43 @@ const {
   handleRemoveImage
 } = useCategory()
 
+const useCategoryy = useCategoryStore()
+const { fetchCategoriesCRUD } = useCategoryy
+const toggleCategoryStatus = async (categoryId: number, currentStatus: string | undefined) => {
+  try {
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+
+    // // Hiển thị hộp thoại xác nhận
+    await ElMessageBox.confirm(
+      `Bạn có chắc chắn muốn ${newStatus === 'active' ? 'kích hoạt' : 'dừng kích hoạt'} danh mục này?`,
+      'Xác nhận',
+      {
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy',
+        type: 'warning',
+      }
+    );
+    // // Gửi yêu cầu cập nhật trạng thái danh mục
+    const response = await api.put(`/auth/categories/${categoryId}/status`, { status: newStatus });
+    // // Xử lý thành công
+    await fetchCategoriesCRUD()
+    ElMessage({
+      message: `Danh mục đã được ${newStatus === 'active' ? 'kích hoạt' : 'dừng kích hoạt'} thành công.`,
+      type: 'success',
+    });
+
+    // // Cập nhật trạng thái trên giao diện
+    // props.category.status = newStatus;
+
+  } catch (error) {
+    // if (error !== 'cancel') {
+    //   // Hiển thị thông báo lỗi nếu không phải người dùng hủy
+    //   ElNotification({
+    //     title: 'Lỗi',
+    //     message: 'Không thể cập nhật trạng thái danh mục.',
+    //     type: 'error',
+    //   });
+    // }
+  }
+};
 </script>
