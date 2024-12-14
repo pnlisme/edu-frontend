@@ -68,17 +68,24 @@
                                 }}</del>
                         </div>
                         <div class="w-1/3">
+                            <div class="" v-if="course.type_sale === 'price'">
 
-                            <div v-if="course.sale_value"
-                                class="bg-pink-500 text-white font-medium p-1 rounded-md text-center">
-                                Giảm {{ course.sale_value }}%
+                                <div v-if="course.sale_value"
+                                    class="bg-pink-500 text-white font-medium p-1 rounded-md text-sm text-center">
+                                    Giảm {{ formatPrice(course.sale_value) }}
+                                </div>
+                            </div>
+                            <div class="" v-else>
+                                <div v-if="course.sale_value"
+                                    class="bg-pink-500 text-white font-medium p-1 rounded-md text-sm text-center">
+                                    Giảm {{ course.sale_value }}%
+                                </div>
                             </div>
                         </div>
                         <div class="" @click="handleAddToCart(course.id)">
 
                             <Button class="w-full" variant="primary">Thêm vào giỏ hàng</Button>
                         </div>
-                        <Button class="w-full" variant="default">Mua ngay</Button>
                         <div>
                             <h3 class="font-medium">Khóa học này bao gồm</h3>
                             <ul class="flex flex-col gap-2 mt-3">

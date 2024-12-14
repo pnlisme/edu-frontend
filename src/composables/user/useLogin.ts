@@ -63,9 +63,12 @@ export function useLogin() {
         })
 
         const redirectUrl = localStorage.getItem('redirectAfterLogin') || '/'
+
         localStorage.removeItem('redirectAfterLogin')
         if (redirectUrl === '/login') {
           router.push('/')
+        } else if (redirectUrl.includes('/verify-email/')) {
+          router.push('/') // Điều hướng về trang chủ
         } else {
           router.push(redirectUrl)
         }

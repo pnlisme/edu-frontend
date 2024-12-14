@@ -12,7 +12,6 @@ export function useVerifyEmail() {
     loading.value = true
     try {
       const response = await api.post(`auth/verify-email/${token}`)
-      console.log(response)
       if (response.data.status === 'OK') {
         router.push('/login')
         ElNotification({
