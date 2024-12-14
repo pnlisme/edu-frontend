@@ -14,7 +14,7 @@ const echo = new Echo({
   cluster: 'ap1',
   // forceTLS: true,
   encrypted: true,
-  authEndpoint: 'http://192.168.1.33:8080/broadcasting/auth',
+  authEndpoint: 'https://192.168.1.33:8080/broadcasting/auth',
   auth: {
     headers: {
       Authorization: `Bearer ${Cookies.get('token_user_edu')}`
