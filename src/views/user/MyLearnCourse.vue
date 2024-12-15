@@ -128,7 +128,7 @@
             <el-collapse-item v-for="(content, index) in allContent" :key="content.id" :name="index">
               <template #title>
                 <div class="px-4 !text-gray-900 flex gap-5 items-center justify-between leading-5">
-                  <h3 class="text-lg">{{ content.title }}</h3>
+                  <h3 class="text-sm">{{ content.title }}</h3>
                   <div class="flex gap-1" v-if="content.content_course_type === 'section'">
                     <span class="text-gray-500">{{ content.total_done }}/{{
                       content.total_count
@@ -136,7 +136,6 @@
                       Hoàn thành</span> •
                     <span class="text-pink-500">{{ content.duration_display }}</span>
                   </div>
-                  <!-- <div @click="handleChangeContent(content)" -->
                   <div @click="handleChangeContent(content)" v-if="content.content_course_type === 'quiz'"
                     class=" text-blue-500">
                     Quiz
@@ -144,6 +143,41 @@
                 </div>
               </template>
               <div v-for="lesson in content.section_content" :key="lesson.id"
+                class="cursor-pointer flex justify-between items-center bg-white border rounded-md shadow-sm mb-2 transition hover:shadow-md">
+                <!-- Lesson Info -->
+                <div class="flex items-center gap-3 w-full px-4 py-3 rounded-md transition-all duration-200"
+                  @click="handleChangeContent(lesson)" :class="{ 'bg-gray-100': currentContent.id === lesson.id }">
+                  <!-- Icon Section -->
+                  <div class="flex-shrink-0">
+                    <CheckOuline :class="lesson.percent >= 100 ? 'text-green-500' : 'text-gray-400'" class="h-6 w-6" />
+                  </div>
+
+                  <!-- Lesson Details -->
+                  <div class="flex flex-col w-full">
+                    <h3 class="text-base font-medium text-gray-800">{{ lesson.title }}</h3>
+                    <div>
+                      <!-- Video Type -->
+                      <div class="flex items-center gap-2 text-sm text-gray-500" v-if="lesson.type === 'video'">
+                        <PlayCircleIcon class="h-5 w-5 text-indigo-600" />
+                        <span class="text-pink-500 font-medium">{{ lesson.duration_display }}</span>
+                      </div>
+                      <!-- File Type -->
+                      <div class="flex items-center gap-2 text-sm text-gray-500" v-else-if="lesson.type === 'file'">
+                        <DocumentIcon class="h-5 w-5 text-blue-500" />
+                        <span class="text-pink-500 font-medium">{{ lesson.duration_display }}</span>
+                      </div>
+                      <!-- Quiz Type -->
+                      <div class="flex items-center gap-2 text-sm text-gray-500"
+                        v-else-if="lesson.content_section_type === 'quiz'">
+                        <QuestionMarkCircleIcon class="h-5 w-5 text-yellow-500" />
+                        <span class="text-gray-600">Quiz</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div v-for="lesson in content.section_content" :key="lesson.id"
                 class="cursor-pointer flex justify-between items-start bg-gray-50  py-2">
                 <div class="flex items-center gap-3 w-full px-4" @click="handleChangeContent(lesson)"
                   :class="{ 'bg-gray-200 rounded-lg': currentContent.id === lesson.id }">
@@ -159,14 +193,13 @@
                         <DocumentIcon class="h-4 w-4 text-gray-600" />
                         <span class="text-pink-500">{{ lesson.duration_display }}</span>
                       </div>
-                      <!-- Nếu không, hiển thị biểu tượng câu hỏi -->
                       <div class="flex items-center gap-1" v-else-if="lesson.content_section_type === 'quiz'">
                         <QuestionMarkCircleIcon class="h-4 w-4 text-gray-600" />
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </el-collapse-item>
           </el-collapse>
         </div>
