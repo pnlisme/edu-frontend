@@ -34,7 +34,8 @@ export function useShop() {
       if (response.data.status === 'FAIL') {
         ElNotification({
           title: 'Thông báo',
-          message: response.data.message,
+          // message: response.data.message,
+          message: 'Chưa có khóa học',
           type: 'warning'
         })
       }

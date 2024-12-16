@@ -149,7 +149,7 @@
                   @click="handleChangeContent(lesson)" :class="{ 'bg-gray-100': currentContent.id === lesson.id }">
                   <!-- Icon Section -->
                   <div class="flex-shrink-0">
-                    <CheckOuline :class="lesson.percent >= 100 ? 'text-green-500' : 'text-gray-400'" class="h-6 w-6" />
+                    <CheckOuline :class="lesson.percent >= 97 ? 'text-green-500' : 'text-gray-400'" class="h-6 w-6" />
                   </div>
 
                   <!-- Lesson Details -->

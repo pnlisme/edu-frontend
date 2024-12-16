@@ -8,7 +8,7 @@
             <div class="flex flex-col">
                 <div class="flex justify-between">
                     <h3 class="font-medium">{{ name }}</h3>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2" v-if="user_id === user_comment_id">
                         <PencilSquareIcon @click="openEditDialog" class="h-4 w-4 text-blue-500 cursor-pointer" />
                         <TrashIcon @click="handleDelete" class="h-4 w-4 text-red-500 cursor-pointer" />
                     </div>

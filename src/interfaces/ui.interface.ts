@@ -63,6 +63,8 @@ export interface CourseContentItem {
 }
 export interface CourseComment {
   id: number
+  user_id?: number
+  user_comment_id?: number
   image?: string
   name: string
   created_at: string

@@ -5,10 +5,10 @@
             <div class="flex flex-col gap-3">
                 <h1 class="text-4xl font-semibold">Các khóa học về <span class="text-indigo-600">khoa học máy
                         tính</span></h1>
-                <div class="flex gap-3">
+                <!-- <div class="flex gap-3">
                     <UsersIcon class="h-6 w-6 text-gray-900" />
                     <span class="text-sm">2853852 người học</span>
-                </div>
+                </div> -->
             </div>
             <div class="mt-5">
                 <h3 class=" font-semibold text-2xl">Các khóa học giúp bạn bắt đầu</h3>

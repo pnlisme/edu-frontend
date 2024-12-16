@@ -26,7 +26,8 @@
                 </div>
                 <el-tabs v-model="activeTab" class="mt-5">
                     <el-tab-pane label="Mô tả" name="description">
-                        <UserCourseDescribe :contents="course.course_contents || ''" />
+                        <UserCourseDescribe :description="course.description"
+                            :short_description="course.short_description" :contents="course.course_contents || ''" />
                     </el-tab-pane>
                     <el-tab-pane label="Khóa học" name="course">
                         <UserCourseOption :contents="course.course_contents || ''" />
@@ -65,7 +66,7 @@
                             <div class="text-2xl font-bold">{{ formatPrice(course.current_price) }}</div>
                             <del v-if="course.old_price" class="text-lg text-gray-400">{{
                                 formatPrice(course.old_price)
-                                }}</del>
+                            }}</del>
                         </div>
                         <div class="w-1/3">
                             <div class="" v-if="course.type_sale === 'price'">

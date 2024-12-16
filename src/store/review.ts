@@ -11,6 +11,7 @@ export interface TReview {
   comment: string
   created_at: string
   status: 'active' | 'inactive'
+  user_id: number
   user: {
     first_name: string
     last_name: string

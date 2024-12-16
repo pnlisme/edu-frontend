@@ -129,7 +129,7 @@ import { type DrawerProps } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-import logo from '../../assets/images/logo1.svg';
+import logo from '../../assets/images/logo3.svg';
 import SearchProduct from '../ui/dialog/SearchProduct.vue';
 import ViewCart from '../ui/dialog/ViewCart.vue';
 import MenuDesktop from '../ui/menu/MenuDesktop.vue';

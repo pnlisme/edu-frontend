@@ -72,6 +72,9 @@ export function useLogin() {
         } else {
           router.push(redirectUrl)
         }
+        setTimeout(() => {
+          window.location.reload()
+        }, 500)
       }
       // Chuyển hướng đến trang khác (ví dụ: dashboard)
     } catch (error) {

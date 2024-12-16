@@ -27,10 +27,10 @@
             <div class="flex flex-col gap-5">
 
                 <div v-for="(review, index) in listReview" :key="index">
-                    <CardCourseComment :course_id="review.course_id || 0" :id="review.id || 0"
-                        :rate="review.rating || 0" :name="review.user?.last_name || 'Ẩn danh'"
-                        :content="review.comment || ''" :image="review.user?.avatar || ''"
-                        :created_at="review.created_at || ''" />
+                    <CardCourseComment :user_id="state.user?.id" :user_comment_id="review.user_id"
+                        :course_id="review.course_id || 0" :id="review.id || 0" :rate="review.rating || 0"
+                        :name="review.user?.last_name || 'Ẩn danh'" :content="review.comment || ''"
+                        :image="review.user?.avatar || ''" :created_at="review.created_at || ''" />
 
 
                 </div>
@@ -63,14 +63,20 @@
 <script setup lang="ts">
 import Button from '@/components/ui/button/Button.vue';
 import CardCourseComment from '@/components/ui/card/CardCourseComment.vue';
+import { useAuthStore } from '@/store/auth';
 import { useReviewsStore } from '@/store/review';
 import { MagnifyingGlassIcon, StarIcon as StarIconSolid, XMarkIcon } from '@heroicons/vue/20/solid';
 import { StarIcon as StarIconOutline } from '@heroicons/vue/24/outline';
 import { ElMessage } from 'element-plus';
-import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { computed, onMounted, ref } from 'vue';
+const authStore = useAuthStore()
+const { state } = storeToRefs(authStore)
 
+const { userData } = authStore;
 export interface TReview {
     id: number
+    user_id: number
     course_id: number
     rating: number
     comment: string
@@ -86,6 +92,7 @@ export interface TReview {
 const props = defineProps<{
     listReview: TReview[]; idCourse: number
 }>();
+
 const reviewsStore = useReviewsStore()
 const form = ref({
     course_id: props.idCourse,
@@ -101,7 +108,14 @@ const submitReview = async () => {
     resetForm();
 
 }
+onMounted(async () => {
 
+    try {
+        await userData();
+    } catch (error) {
+        console.error('Error during onMounted:', error);
+    }
+})
 const filterKeyword = ref(''); // Từ khóa filter
 const filterRating = ref<number | ''>(''); // Rating filter
 const resetForm = () => {
