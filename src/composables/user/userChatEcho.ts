@@ -15,7 +15,6 @@ const echo = new Echo({
   // forceTLS: true,
   encrypted: true,
   authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
-  // authEndpoint: 'https://toannt.id.vn/public/broadcasting/auth',
   auth: {
     headers: {
       Authorization: `Bearer ${Cookies.get('token_user_edu')}`
